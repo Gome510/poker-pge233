@@ -4,4 +4,6 @@
   background-repeat: repeat;
   background-position: center;
   min-height: 100vh;
+
+  position: relative;
 }
