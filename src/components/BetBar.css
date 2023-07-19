@@ -1,0 +1,9 @@
+.bet-bar {
+    position: absolute;
+    bottom: 10px;
+    right: 600px;
+}
+
+.bet-bar>p{
+    color:white;
+}
