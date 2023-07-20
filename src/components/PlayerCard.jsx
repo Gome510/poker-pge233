@@ -1,8 +1,13 @@
 import React from "react";
 import "./PlayerCard.css";
-function PlayerCard() {
+
+function PlayerCard(props) {
+  const playerStyle = {
+    top: props.top || 0,
+    left: props.left || 0,
+  };
   return (
-    <div className="player-card">
+    <div className="player-card" style={playerStyle}>
       <img src="src\assets\default_pfp.png" />
       <div className="player-nameplate">
         <h3>Player Name</h3>
