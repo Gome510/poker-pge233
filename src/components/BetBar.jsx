@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./BetBar.css"
 
 export default function BetBar() {
-    const [sliderValue, setSliderValue] = useState(0);
+    const [sliderValue, setSliderValue] = useState(50);
 
     const handleSliderChange = (event) => {
         const value = event.target.value;
@@ -17,6 +17,7 @@ export default function BetBar() {
                 type="range" 
                 min="0" 
                 max="100" 
+                defaultValue={50}
                 className="slider" 
                 id="myRange" 
                 onChange={handleSliderChange}

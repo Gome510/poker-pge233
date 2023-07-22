@@ -11,7 +11,7 @@ function App() {
       <BetBar />
       <PlayerCard 
         top={180} 
-        left={320} 
+        left={"15%"} 
       />
       <PlayerCard 
         top={530} 
@@ -19,17 +19,17 @@ function App() {
       />
       <PlayerCard 
         top={180} 
-        left={"45%"} 
+        left={"70%"} 
       />
       <PlayerCard 
-        top={530} 
-        left={"45%"} 
+        top={430} 
+        left={"15%"} 
       />
       <PlayerCard 
-        top={530} 
-        left={"45%"} 
+        top={430} 
+        left={"70%"} 
       />
-      
+      \  
     </div>
   );
 }

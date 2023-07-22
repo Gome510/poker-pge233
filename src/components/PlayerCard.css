@@ -1,8 +1,12 @@
+/* .player-card *{
+  outline: black solid 1px;
+} */
+
 .player-card {
   background-color: grey;
   border-radius: 2px;
   color: white;
-  height: 70px;
+  height: 60px;
   padding-right: 10px;
 
   position: absolute;
@@ -19,4 +23,13 @@
   background-color: black;
   border-radius: 50%;
   border: 2px black solid;
+  margin-right: 5px;
+}
+.player-card h3{
+  margin-bottom: 0px;
+  border-bottom:2px solid black;
+}
+.player-card p{
+  margin-top: 0;
+  
 }
