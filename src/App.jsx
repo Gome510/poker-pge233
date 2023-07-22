@@ -3,6 +3,7 @@ import "./App.css";
 import ActionBar from "./components/ActionBar";
 import BetBar from "./components/BetBar";
 import PlayerCard from "./components/PlayerCard";
+import CardHandler from "./components/CardHandler";
 
 function App() {
   return (
@@ -29,7 +30,7 @@ function App() {
         top={430} 
         left={"70%"} 
       />
-      \  
+      <CardHandler />  
     </div>
   );
 }
