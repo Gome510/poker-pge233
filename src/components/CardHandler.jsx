@@ -2,23 +2,24 @@ import React, {useState, useEffect} from "react";
 
 function CardHandler() {
     const [deck, setDeck] = useState()
-    const [shuffle, setShuffle] = useState()
+    const [round, setRound] = useState()
+    const [cards, setCards] = useState([])
 
     useEffect(() => {
         fetch('https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1')
             .then((response) => response.json())
             .then((data)=>{
-                
-                setDeck(data)
+
                 console.log(data)
-                console.log(deck)
+                setDeck(data)
+                
             })
             .catch((err) => {
                 console.log(err.message);
             })
     }, [])
 
-    /* useEffect(() => {
+    useEffect(() => {
         fetch("https://www.deckofcardsapi.com/api/deck/lvankzmeua6t/shuffle/")
             .then((response) => response.json())
             .then((data)=>{
@@ -28,7 +29,19 @@ function CardHandler() {
             .catch((err) => {
                 console.log(err.message);
             })
-    }, []) */
+    }, [])
+
+    /* useEffect(()=>{
+        fetch("https://www.deckofcardsapi.com/api/deck/<<deck_id>>/draw/?count=2")
+            .then((response) => response.json())
+            .then((data)=>{
+                console.log(data)
+                setCards(data)
+            })
+            .catch((err)=>{
+                console.log(err.message)
+            })
+    },[]) */
 
     return ( 
         <div>
