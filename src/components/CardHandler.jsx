@@ -5,7 +5,7 @@ function CardHandler() {
     const [round, setRound] = useState()
     const [cards, setCards] = useState([])
 
-    useEffect(() => {
+    /* useEffect(() => {
         fetch('https://www.deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1')
             .then((response) => response.json())
             .then((data)=>{
@@ -31,7 +31,7 @@ function CardHandler() {
             })
     }, [])
 
-    /* useEffect(()=>{
+    useEffect(()=>{
         fetch("https://www.deckofcardsapi.com/api/deck/<<deck_id>>/draw/?count=2")
             .then((response) => response.json())
             .then((data)=>{

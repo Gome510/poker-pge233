@@ -5,6 +5,19 @@
   height:700px;
   width:1300px;
   margin:0 auto;
+  display: flex;
+  justify-content: center;
 
   position: relative;
+}
+
+#start-game{
+  align-self:center;
+  
+  height: 100px;
+  width: 200px;
+  border-radius: 5px;
+  font-size: large;
+  font-weight: bold;
+  background-color: red;
 }
