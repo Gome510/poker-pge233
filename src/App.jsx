@@ -25,7 +25,7 @@ function App() {
           <PlayerCard top={180} left={"70%"} />
           <PlayerCard top={430} left={"15%"} />
           <PlayerCard top={430} left={"70%"} />
-          <CardHandler />
+          
         </>
       )}
     </div>

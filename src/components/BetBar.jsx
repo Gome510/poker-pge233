@@ -1,3 +1,4 @@
+//Betting slider and display
 import React, { useState } from "react";
 import "./BetBar.css"
 
