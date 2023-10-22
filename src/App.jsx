@@ -4,14 +4,8 @@ import Game from "./components/Game";
 import CardHandler from "./components/CardHandler";
 
 function App() {
-  const [game, setGame] = useState({
-    started: false,
-    pot: 0,
-    round: 0,
-    phase: "pre-flop", //pre-flop (deal), flop (3), turn (1), river (1)
-    playerTurn: 0,
-  });
-  const [players, setPlayers] = useState([]);
+  const [gameStarted, setGameStarted] = useState(false);
+
   /* let playerMoney = [10000,10000,10000,10000,10000]
   let sharedCards = [];
   let gameStarted = false;
@@ -21,31 +15,8 @@ function App() {
   let turn = 0;
   let round = 0; */
   function startGame() {
-    setGame((prevGame) => ({
-      ...prevGame,
-      started: true,
-    }));
-
-    initPlayers();
-    console.log(players);
-  }
-
-  function initPlayers() {
-    let newPlayers = [];
-    for (let i = 0; i < 5; i++) {
-      let isCPU = i != 2;
-      let player = {
-        seat: i + 1,
-        balance: 10000,
-        cards: [],
-        isCPU: isCPU,
-        bet: 0,
-        isPlaying: true,
-      };
-      newPlayers.unshift(player);
-      console.log(player);
-    }
-    setPlayers(newPlayers);
+    setGameStarted(true);
+    console.log("Game Started: " + gameStarted);
   }
 
   return (
@@ -55,7 +26,7 @@ function App() {
           Start Poker Game
         </button>
       ) : (
-        <Game />
+        <Game game={game} />
       )}
     </div>
   );
