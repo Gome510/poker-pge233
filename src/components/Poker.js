@@ -1,9 +1,16 @@
-class Poker {
+export class Poker {
   constructor() {
     this.phase = "preflop";
     this.pot = 0;
     this.round = 0;
     this.playerTurn = 0;
+  }
+
+  constructor(game) {
+    this.phase = game.phase;
+    this.pot = game.pot;
+    this.round = round;
+    this.playerTurn = playerTurn;
   }
 
   //Getters
@@ -41,6 +48,10 @@ class Poker {
   }
 
   //helper functions
+  nextRound() {
+    this.setRound(this.round + 1);
+  }
+
   clearPot() {
     this.setPot(0);
   }

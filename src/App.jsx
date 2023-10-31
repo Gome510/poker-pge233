@@ -26,7 +26,7 @@ function App() {
           Start Poker Game
         </button>
       ) : (
-        <Game game={game} />
+        <Game />
       )}
     </div>
   );
