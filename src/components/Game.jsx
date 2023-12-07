@@ -7,29 +7,6 @@ import { Poker } from "./Poker";
 
 function Game({ gameData }) {
   const [game, setGame] = useState(new Poker(gameData));
-  const [players, setPlayers] = useState([]);
-
-  useEffect(() => {
-    initPlayers();
-  }, []);
-
-  function initPlayers() {
-    let newPlayers = [];
-    for (let i = 0; i < 5; i++) {
-      let isCPU = i != 2;
-      let player = {
-        seat: i + 1,
-        balance: 10000,
-        cards: [],
-        isCPU: isCPU,
-        bet: 0,
-        isPlaying: true,
-      };
-      newPlayers.unshift(player);
-      console.log(player);
-    }
-    setPlayers(newPlayers);
-  }
 
   function handleGameChange(gameUpdate) {
     setGame(gameUpdate);
@@ -39,12 +16,8 @@ function Game({ gameData }) {
     <>
       <ActionBar />
       <BetBar game={game} />
-      <Players players={players} />
-      <TestToolbar
-        game={game}
-        handleGameChange={handleGameChange}
-        players={players}
-      />
+      <Players players={game.getPlayers()} />
+      <TestToolbar game={game} handleGameChange={handleGameChange} />
     </>
   );
 }

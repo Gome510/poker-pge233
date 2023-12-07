@@ -1,4 +1,4 @@
-import "./PlayerCard.css";
+import "./Players.css";
 
 export default function Players() {
   const cardCoords = [{ top: "100px", left: "100px" }];

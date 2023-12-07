@@ -1,3 +1,5 @@
+import { Player } from "./Player";
+
 const phases = ["preflop", "flop", "turn", "river"];
 export class Poker {
   constructor(initalState = {}) {
@@ -6,6 +8,43 @@ export class Poker {
     this.round = initalState.round || 0;
     this.playerTurn = initalState.playerTurn || 0;
     this.playerCount = initalState.playerCount || 5;
+    this.players =
+      initalState.players || this.initPlayers(this.getPlayerCount());
+  }
+
+  //initialization
+  initPlayers(count) {
+    let newPlayers = [];
+    for (let i = 0; i < count; i++) {
+      let isCPU = i != 2;
+      let player = new Player({
+        seat: i + 1,
+        isCPU: isCPU,
+      });
+      newPlayers.push(player);
+    }
+    return newPlayers;
+  }
+
+  //helper functions
+  nextRound() {
+    this.setRound(this.getRound() + 1);
+  }
+
+  clearPot() {
+    this.setPot(0);
+  }
+
+  nextPhase() {
+    const currentPhaseIndex = phases.findIndex(
+      (phase) => phase == this.getPhase()
+    );
+    const nextPhaseIndex = (currentPhaseIndex + 1) % 4;
+    this.setPhase(phases[nextPhaseIndex]);
+  }
+
+  nextPlayer() {
+    this.setPlayerTurn((this.getPlayerTurn() + 1) % this.getPlayerCount());
   }
 
   //Getters
@@ -29,6 +68,10 @@ export class Poker {
     return this.playerCount;
   }
 
+  getPlayers() {
+    return this.getPlayers;
+  }
+
   //Setters
   setPhase(newPhase) {
     this.phase = newPhase;
@@ -48,24 +91,5 @@ export class Poker {
 
   setPlayerCount(newPlayerCount) {
     this.playerCount = newPlayerCount;
-  }
-
-  //helper functions
-  nextRound() {
-    this.setRound(this.getRound() + 1);
-  }
-
-  clearPot() {
-    this.setPot(0);
-  }
-
-  nextPhase() {
-    const currentPhaseIndex = phases.findIndex(this.getPhase());
-    const nextPhaseIndex = (currentPhaseIndex + 1) % 4;
-    this.setPhase(phases[nextPhaseIndex]);
-  }
-
-  nextPlayer() {
-    this.setPlayerTurn((this.getPlayerTurn + 1) % this.getPlayerCount);
   }
 }

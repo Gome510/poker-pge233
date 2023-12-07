@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import { Poker } from "../Poker";
 
-function TestToolbar({ game, handleGameChange, players }) {
+function TestToolbar({ game, handleGameChange }) {
   function handleRoundClick() {
     let gameUpdate = new Poker(game);
     gameUpdate.nextRound();
