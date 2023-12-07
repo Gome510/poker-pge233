@@ -1,8 +1,8 @@
-import ActionBar from "./ActionBar";
-import BetBar from "./BetBar";
-import Players from "./Players";
+import ActionBar from "./ActionBar/ActionBar";
+import BetBar from "./BetBar/BetBar";
+import Players from "./Players/Players";
 import { useState, useEffect } from "react";
-import TestToolbar from "./TestToolbar";
+import TestToolbar from "./DevTools/TestToolbar";
 import { Poker } from "./Poker";
 
 function Game() {

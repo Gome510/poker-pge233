@@ -1,9 +1,9 @@
 export class Poker {
-  constructor() {
-    this.phase = "preflop";
-    this.pot = 0;
-    this.round = 0;
-    this.playerTurn = 0;
+  constructor(initalState = {}) {
+    this.phase = initalState.phase || "preflop";
+    this.pot = initalState.pot || 0;
+    this.round = initalState.round || 0;
+    this.playerTurn = initalState.playerTurn || 0;
   }
 
   //Getters
