@@ -6,13 +6,6 @@ export class Poker {
     this.playerTurn = 0;
   }
 
-  constructor(game) {
-    this.phase = game.phase;
-    this.pot = game.pot;
-    this.round = round;
-    this.playerTurn = playerTurn;
-  }
-
   //Getters
   getPhase() {
     return this.phase;

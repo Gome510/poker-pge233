@@ -1,32 +1,30 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.css";
 import Game from "./components/Game";
-import CardHandler from "./components/CardHandler";
 
 function App() {
-  const [gameStarted, setGameStarted] = useState(false);
+  const [gameData, setGameData] = useState();
 
-  /* let playerMoney = [10000,10000,10000,10000,10000]
-  let sharedCards = [];
-  let gameStarted = false;
-  let pot = 0;
-  let playerCards = [];
-  let playerStatus = ["In","In","In","In","In"];
-  let turn = 0;
-  let round = 0; */
+  useEffect(() => {
+    let gameData = JSON.parse(localStorage.getItem("gameData"));
+    if (localStorage.getItem("gameData")) {
+      setGameData(true);
+    }
+  }, []);
+
   function startGame() {
-    setGameStarted(true);
-    console.log("Game Started: " + gameStarted);
+    setGameData(true);
+    console.log("Game Data: " + gameData);
   }
 
   return (
     <div className="background-image">
-      {!gameStarted ? ( // Render the button only if the game has not started
+      {!gameData ? ( // Render the button only if the game has not Data
         <button id="start-game" onClick={startGame}>
           Start Poker Game
         </button>
       ) : (
-        <Game />
+        <Game data={gameData} />
       )}
     </div>
   );
