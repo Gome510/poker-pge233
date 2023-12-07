@@ -9,12 +9,12 @@ function App() {
   useEffect(() => {
     let gameData = JSON.parse(localStorage.getItem("gameData"));
     if (localStorage.getItem("gameData")) {
-      setGameData(new Poker(gameData));
+      setGameData(gameData);
     }
   }, []);
 
   function startGame() {
-    setGameData(new Poker());
+    setGameData({});
     console.log("Game Data: " + gameData);
   }
 

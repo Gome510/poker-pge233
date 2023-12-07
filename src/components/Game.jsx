@@ -5,8 +5,8 @@ import { useState, useEffect } from "react";
 import TestToolbar from "./DevTools/TestToolbar";
 import { Poker } from "./Poker";
 
-function Game() {
-  const [game, setGame] = useState(new Poker());
+function Game({ gameData }) {
+  const [game, setGame] = useState(new Poker(gameData));
   const [players, setPlayers] = useState([]);
 
   useEffect(() => {
