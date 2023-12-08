@@ -8,6 +8,7 @@ export class Player {
     this.bet = initialState.bet || 0;
     this.isPlaying = initialState.isPlaying || true;
   }
+  //helper functions
 
   //getters
   getSeat() {
@@ -58,6 +59,4 @@ export class Player {
   setIsPlaying(value) {
     this.isPlaying = value;
   }
-
-  //helper functions
 }

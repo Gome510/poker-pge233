@@ -1,5 +1,4 @@
 import ActionBar from "./ActionBar/ActionBar";
-import BetBar from "./BetBar/BetBar";
 import Players from "./Players/Players";
 import { useState, useEffect } from "react";
 import TestToolbar from "./DevTools/TestToolbar";
@@ -13,8 +12,7 @@ function Game({ gameData }) {
   }
   return (
     <>
-      <ActionBar />
-      <BetBar game={game} />
+      {game.playerTurn == 2 && <ActionBar game={game} />}
       <Players players={game.getPlayers()} />
       <TestToolbar game={game} handleGameChange={handleGameChange} />
     </>

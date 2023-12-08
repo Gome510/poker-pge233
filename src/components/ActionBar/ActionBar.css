@@ -1,21 +1,36 @@
-.action-bar{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    height:100px;
-    width:35%;
-    /* background-color: #f5f5f5; */
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
+/* Action Bar */
+.action-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100px;
+  width: 35%;
+  /* background-color: #f5f5f5; */
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
 }
 
-.action-button{
-    display:flex;
-    height: 100%;
-    width: 33%;
-    justify-content: center;
-    align-items: center;
-    background-color: red;
-    border-radius:5px;
+.action-bar button {
+  display: flex;
+  height: 100%;
+  width: 33%;
+  justify-content: center;
+  align-items: center;
+  background-color: red;
+  border-radius: 5px;
+}
+
+/* Bet Bar */
+.bet-bar {
+  position: absolute;
+  bottom: 10px;
+  right: 600px;
+  background-color: red;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.bet-bar > p {
+  color: white;
 }

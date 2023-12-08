@@ -7,7 +7,7 @@ export default function Players({ players = [] }) {
     { top: "500px", left: "600px" },
     { top: "400px", left: "900px" },
     { top: "200px", left: "900px" },
-  ];
+  ].reverse();
 
   return (
     <>
@@ -15,14 +15,14 @@ export default function Players({ players = [] }) {
         <PlayerCard
           top={cardCoords[index].top}
           left={cardCoords[index].left}
-          name={player.name}
+          player={player}
         />
       ))}
     </>
   );
 }
 
-function PlayerCard({ top, left }) {
+function PlayerCard({ top, left, player }) {
   const playerStyle = {
     top: top || 0,
     left: left || 0,
@@ -31,8 +31,8 @@ function PlayerCard({ top, left }) {
     <div className="player-card" style={playerStyle}>
       <img src="/assets/default_pfp.png" />
       <div className="player-nameplate">
-        <h3>Player Name</h3>
-        <p>Money Amount</p>
+        <h3>{player.name}</h3>
+        <p>{player.balance}</p>
       </div>
     </div>
   );
