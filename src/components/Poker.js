@@ -16,7 +16,7 @@ export class Poker {
   initPlayers(count) {
     let newPlayers = [];
     for (let i = 0; i < count; i++) {
-      let isCPU = i != 2;
+      const isCPU = i != 2;
       let player = new Player({
         seat: i + 1,
         isCPU: isCPU,
@@ -69,7 +69,7 @@ export class Poker {
   }
 
   getPlayers() {
-    return this.getPlayers;
+    return this.players;
   }
 
   //Setters

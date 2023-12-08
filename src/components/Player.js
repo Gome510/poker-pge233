@@ -4,7 +4,7 @@ export class Player {
     this.seat = initialState.seat || 0;
     this.balance = initialState.balance || 10000;
     this.cards = initialState.cards || [];
-    this.isCPU = initialState.isCPU || true;
+    this.isCPU = initialState.isCPU == null ? true : initialState.isCPU;
     this.bet = initialState.bet || 0;
     this.isPlaying = initialState.isPlaying || true;
   }

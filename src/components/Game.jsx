@@ -11,7 +11,6 @@ function Game({ gameData }) {
   function handleGameChange(gameUpdate) {
     setGame(gameUpdate);
   }
-  console.log(game.getPlayers());
   return (
     <>
       <ActionBar />

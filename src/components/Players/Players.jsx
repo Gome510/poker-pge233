@@ -1,6 +1,6 @@
 import "./Players.css";
 
-export default function Players({ players }) {
+export default function Players({ players = [] }) {
   const cardCoords = [
     { top: "200px", left: "200px" },
     { top: "400px", left: "200px" },
