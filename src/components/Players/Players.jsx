@@ -1,12 +1,22 @@
 import "./Players.css";
 
-export default function Players() {
-  const cardCoords = [{ top: "100px", left: "100px" }];
+export default function Players({ players }) {
+  const cardCoords = [
+    { top: "200px", left: "200px" },
+    { top: "400px", left: "200px" },
+    { top: "500px", left: "600px" },
+    { top: "400px", left: "900px" },
+    { top: "200px", left: "900px" },
+  ];
 
   return (
     <>
-      {cardCoords.map((coords) => (
-        <PlayerCard top={coords.top} left={coords.left} />
+      {players.map((player, index) => (
+        <PlayerCard
+          top={cardCoords[index].top}
+          left={cardCoords[index].left}
+          name={player.name}
+        />
       ))}
     </>
   );

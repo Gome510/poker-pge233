@@ -1,5 +1,6 @@
 export class Player {
   constructor(initialState = {}) {
+    this.name = initialState.name || "Player Name";
     this.seat = initialState.seat || 0;
     this.balance = initialState.balance || 10000;
     this.cards = initialState.cards || [];
