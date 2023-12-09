@@ -10,6 +10,7 @@ function Game({ gameData }) {
   function handleGameChange(gameUpdate) {
     setGame(gameUpdate);
   }
+
   return (
     <>
       {game.playerTurn == 2 && <ActionBar game={game} />}
