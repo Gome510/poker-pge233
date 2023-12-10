@@ -1,3 +1,4 @@
+//TODO: newDeck, exists
 export class Deck {
   constructor(initialState = {}) {
     this.id = initialState.id || "8qrpkf08dqfq";
@@ -38,8 +39,9 @@ export class Deck {
       });
   }
 
+  //takes number of cards to draw and returns them in an object with the number of cards remaining
   async draw(amount) {
-    await fetch(
+    return await fetch(
       `https://www.deckofcardsapi.com/api/deck/${this.getId()}/draw/?count=${amount}`
     )
       .then((response) => response.json())
@@ -53,13 +55,15 @@ export class Deck {
       });
   }
 
-  async deckExists() {
-    const deckId = this.getId();
-
-    await fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/`)
+  //returns a true if deck exists in API database.
+  async exists() {
+    return await fetch(
+      `https://www.deckofcardsapi.com/api/deck/${this.getId()}/`
+    )
       .then((response) => response.json())
       .then((json) => {
         console.log(json);
+        return json.success;
       })
       .catch((error) => {
         console.log(error);
