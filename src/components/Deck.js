@@ -1,35 +1,65 @@
 export class Deck {
   constructor(initialState = {}) {
-    this.id = initialState.id || 1;
+    this.id = initialState.id || "8qrpkf08dqfq";
     this.remaining = initialState.remaining || 52;
-    this.shuffled = initialState.shuffled || true;
+    this.shuffled = initialState.shuffled || false;
   }
 
   //api calls
   async newDeck() {
     fetch("https://www.deckofcardsapi.com/api/deck/new/")
-      .then((response) => {
-        const data = JSON.parse(response);
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json);
 
-        this.setId(data.deck_id);
-        this.setRemaining(data.remaining);
-        this.setShuffled(data.shuffled);
+        this.setId(json.deck_id);
+        this.setRemaining(json.remaining);
+        this.setShuffled(json.shuffled);
       })
       .catch((error) => {
         console.log(error);
       });
   }
 
-  async deal(amount) {
-    await fetch();
+  async shuffle() {
+    await fetch(
+      `https://www.deckofcardsapi.com/api/deck/${this.getId()}/shuffle/?deck_count=1`
+    )
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json);
+
+        this.setId(json.deck_id);
+        this.setRemaining(json.remaining);
+        this.setShuffled(json.shuffled);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  async draw(amount) {
+    await fetch(
+      `https://www.deckofcardsapi.com/api/deck/${this.getId()}/draw/?count=${amount}`
+    )
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json);
+        this.setShuffled(false);
+        return { cards: json.cards, remaining: json.remaining };
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   async deckExists() {
     const deckId = this.getId();
 
     await fetch(`https://www.deckofcardsapi.com/api/deck/${deckId}/`)
-      .then((response) => {
-        console.log(response.json());
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json);
       })
       .catch((error) => {
         console.log(error);
