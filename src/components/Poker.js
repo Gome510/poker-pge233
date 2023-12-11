@@ -1,8 +1,10 @@
 import { Player } from "./Player";
+import { Deck } from "./Deck";
 
 const phases = ["preflop", "flop", "turn", "river"];
 export class Poker {
   constructor(initialState = {}) {
+    this.deck = new Deck(initialState.deck || {});
     this.phase = initialState.phase || phases[0];
     this.pot = initialState.pot || 0;
     this.ante = initialState.ante || 10;
@@ -33,6 +35,8 @@ export class Poker {
   cpuAction() {
     switch (this.phase) {
       case "preflop":
+        this.anteInCurrentPlayer();
+        this.dealStartingHand();
     }
   }
 
@@ -41,8 +45,8 @@ export class Poker {
     this.setRound(this.getRound() + 1);
   }
 
-  clearPot() {
-    this.setPot(0);
+  nextPlayer() {
+    this.setPlayerTurn((this.getPlayerTurn() + 1) % this.getPlayerCount());
   }
 
   nextPhase() {
@@ -53,8 +57,8 @@ export class Poker {
     this.setPhase(phases[nextPhaseIndex]);
   }
 
-  nextPlayer() {
-    this.setPlayerTurn((this.getPlayerTurn() + 1) % this.getPlayerCount());
+  clearPot() {
+    this.setPot(0);
   }
 
   anteInCurrentPlayer() {
@@ -68,6 +72,10 @@ export class Poker {
   //returns current player object
   currentPlayer() {
     return this.players[this.playerTurn];
+  }
+
+  drawRoundCards(numPlayersIn) {
+    this.draw(5 + numPlayersIn);
   }
 
   /* Getters */

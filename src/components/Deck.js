@@ -4,6 +4,7 @@ export class Deck {
     this.id = initialState.id || "8qrpkf08dqfq";
     this.remaining = initialState.remaining || 52;
     this.shuffled = initialState.shuffled || false;
+    this.drawn = initialState.drawn || [];
   }
 
   //api calls
@@ -84,6 +85,10 @@ export class Deck {
     return this.shuffled;
   }
 
+  getDrawn() {
+    return this.drawn;
+  }
+
   //setters
   setId(value) {
     this.id = value;
@@ -95,5 +100,9 @@ export class Deck {
 
   setShuffled(value) {
     this.shuffled = value;
+  }
+
+  setDrawn(value) {
+    this.drawn = value;
   }
 }
