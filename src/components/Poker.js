@@ -31,8 +31,9 @@ export class Poker {
 
   //player actions
   cpuAction() {
-    //computer checks
-    this.nextPlayer();
+    switch (this.phase) {
+      case "preflop":
+    }
   }
 
   //helper functions
@@ -56,15 +57,20 @@ export class Poker {
     this.setPlayerTurn((this.getPlayerTurn() + 1) % this.getPlayerCount());
   }
 
-  anteIn() {
-    this.getPlayers().forEach(async (player) => {
-      if (player.IsPlaying) {
-        player.balance -= this.ante;
-        this.pot += this.ante;
-      }
-    });
+  anteInCurrentPlayer() {
+    let player = this.currentPlayer();
+    if (player.IsPlaying) {
+      player.balance -= this.ante;
+      this.pot += this.ante;
+    }
   }
-  //Getters
+
+  //returns current player object
+  currentPlayer() {
+    return this.players[this.playerTurn];
+  }
+
+  /* Getters */
   getPhase() {
     return this.phase;
   }

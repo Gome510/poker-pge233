@@ -12,11 +12,12 @@ function Game({ gameData }) {
   }
 
   useEffect(() => {
-    if (game.players[game.playerTurn].isCPU) {
-      //cpu action
-      console.log(game.playerTurn);
+    const currentPlayer = game.currentPlayer();
+    if (currentPlayer.isCPU) {
+      console.log(`Player Turn: ${game.playerTurn}`);
       let gameUpdate = new Poker(game);
       gameUpdate.cpuAction();
+      gameUpdate.nextPlayer();
       handleGameChange(gameUpdate);
     }
   }, [game]);
