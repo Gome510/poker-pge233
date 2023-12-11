@@ -8,14 +8,14 @@ export class Deck {
 
   //api calls
   async newDeck() {
-    fetch("https://www.deckofcardsapi.com/api/deck/new/")
+    return await fetch("https://www.deckofcardsapi.com/api/deck/new/")
       .then((response) => response.json())
       .then((json) => {
-        console.log(json);
-
         this.setId(json.deck_id);
         this.setRemaining(json.remaining);
         this.setShuffled(json.shuffled);
+
+        return json.success;
       })
       .catch((error) => {
         console.log(error);
@@ -23,16 +23,16 @@ export class Deck {
   }
 
   async shuffle() {
-    await fetch(
+    return await fetch(
       `https://www.deckofcardsapi.com/api/deck/${this.getId()}/shuffle/?deck_count=1`
     )
       .then((response) => response.json())
       .then((json) => {
-        console.log(json);
-
         this.setId(json.deck_id);
         this.setRemaining(json.remaining);
         this.setShuffled(json.shuffled);
+
+        return json.success;
       })
       .catch((error) => {
         console.log(error);
@@ -46,8 +46,8 @@ export class Deck {
     )
       .then((response) => response.json())
       .then((json) => {
-        console.log(json);
         this.setShuffled(false);
+        this.setRemaining(json.remaining);
         return { cards: json.cards, remaining: json.remaining };
       })
       .catch((error) => {
@@ -62,7 +62,6 @@ export class Deck {
     )
       .then((response) => response.json())
       .then((json) => {
-        console.log(json);
         return json.success;
       })
       .catch((error) => {

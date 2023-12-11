@@ -5,6 +5,7 @@ export class Poker {
   constructor(initialState = {}) {
     this.phase = initialState.phase || phases[0];
     this.pot = initialState.pot || 0;
+    this.ante = initialState.ante || 10;
     this.currentBid = initialState.bid || 0;
     this.round = initialState.round || 0;
     this.playerTurn = initialState.playerTurn || 0;
@@ -28,6 +29,12 @@ export class Poker {
     return newPlayers;
   }
 
+  //player actions
+  cpuAction() {
+    //computer checks
+    this.nextPlayer();
+  }
+
   //helper functions
   nextRound() {
     this.setRound(this.getRound() + 1);
@@ -49,6 +56,14 @@ export class Poker {
     this.setPlayerTurn((this.getPlayerTurn() + 1) % this.getPlayerCount());
   }
 
+  anteIn() {
+    this.getPlayers().forEach(async (player) => {
+      if (player.IsPlaying) {
+        player.balance -= this.ante;
+        this.pot += this.ante;
+      }
+    });
+  }
   //Getters
   getPhase() {
     return this.phase;
@@ -56,6 +71,10 @@ export class Poker {
 
   getPot() {
     return this.pot;
+  }
+
+  getAnte() {
+    return this.ante;
   }
 
   getRound() {
@@ -85,6 +104,10 @@ export class Poker {
 
   setPot(newPot) {
     this.pot = newPot;
+  }
+
+  setAnte(newAnte) {
+    this.ante = newAnte;
   }
 
   setRound(newRound) {
