@@ -32,6 +32,7 @@ export class Deck {
         this.setId(json.deck_id);
         this.setRemaining(json.remaining);
         this.setShuffled(json.shuffled);
+        this.setDrawn([]);
 
         return json.success;
       })
@@ -49,7 +50,8 @@ export class Deck {
       .then((json) => {
         this.setShuffled(false);
         this.setRemaining(json.remaining);
-        return { cards: json.cards, remaining: json.remaining };
+        this.drawn.push(...json.cards);
+        return json.cards;
       })
       .catch((error) => {
         console.log(error);
