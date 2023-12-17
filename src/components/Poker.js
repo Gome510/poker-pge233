@@ -1,5 +1,5 @@
-import { Player } from "./Player";
-import { Deck } from "./Deck";
+import { Player } from "./Player.js";
+import { Deck } from "./Deck.js";
 
 const phases = ["preflop", "flop", "turn", "river"];
 export class Poker {
@@ -36,11 +36,67 @@ export class Poker {
     switch (this.phase) {
       case "preflop":
         this.anteInCurrentPlayer();
-        this.dealStartingHand();
+        break;
+      case "flop":
+        //check
+
+        break;
+      case "turn":
+        //check
+        break;
+      case "river":
+        //check
+        break;
+      default:
+    }
+  }
+
+  action(actionType, amount = 0) {
+    const currentPlayer = this.currentPlayer();
+    switch (actionType) {
+      case "check":
+        currentPlayer.lastAction = actionType;
+        break;
+      case "bet":
+      case "raise":
+        if (amount == 0) {
+          console.error(
+            "Bug: Poker: action(): Bet/raise amount cannot be zero"
+          );
+          return;
+        }
+
+        currentPlayer.lastAction = actionType;
+        currentPlayer.setBet(amount);
+        this.currentBid = amount;
+        break;
+      case "call":
+        currentPlayer.lastAction = actionType;
+        currentPlayer.setBet(this.getCurrentBid());
+        break;
+      case "fold":
+        currentPlayer.lastAction = actionType;
+        currentPlayer.setIsPlaying(false);
+        break;
+      default:
+        console.error(`Bug: Poker: action(): ${actionType}, invalid action`);
     }
   }
 
   //helper functions
+
+  //draw and store 5 community cards and 2 cards per player
+  async prepareCards() {
+    await this.deck.draw(2 * this.playerCount + 5);
+  }
+
+  dealPlayerCards() {
+    this.players.forEach((player) => {
+      player.cards.push(this.deck.drawn.pop());
+      player.cards.push(this.deck.drawn.pop());
+    }, this);
+  }
+
   nextRound() {
     this.setRound(this.getRound() + 1);
   }
@@ -61,6 +117,14 @@ export class Poker {
     this.setPot(0);
   }
 
+  //return true if all players have met the current bid.
+  endOfPhase() {
+    return (
+      this.playerTurn == this.playerCount - 1 &&
+      this.currentPlayer().bet == this.currentBid
+    );
+  }
+
   anteInCurrentPlayer() {
     let player = this.currentPlayer();
     if (player.IsPlaying) {
@@ -72,10 +136,6 @@ export class Poker {
   //returns current player object
   currentPlayer() {
     return this.players[this.playerTurn];
-  }
-
-  drawRoundCards(numPlayersIn) {
-    this.draw(5 + numPlayersIn);
   }
 
   /* Getters */
