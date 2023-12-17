@@ -13,10 +13,15 @@ function Game({ gameData }) {
 
   useEffect(() => {
     const currentPlayer = game.currentPlayer();
+    console.log(`Player Turn: ${game.playerTurn}`);
+
     if (currentPlayer.isCPU) {
-      console.log(`Player Turn: ${game.playerTurn}`);
       let gameUpdate = new Poker(game);
       gameUpdate.cpuAction();
+
+      if (gameUpdate.endOfPhase()) {
+        gameUpdate.nextPhase();
+      }
       gameUpdate.nextPlayer();
       handleGameChange(gameUpdate);
     }
