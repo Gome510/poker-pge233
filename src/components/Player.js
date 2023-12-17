@@ -2,6 +2,7 @@ export class Player {
   constructor(initialState = {}) {
     this.name = initialState.name || "Player Name";
     this.seat = initialState.seat || 0;
+    this.lastAction = initialState.lastAction || "";
     this.balance = initialState.balance || 10000;
     this.cards = initialState.cards || [];
     this.isCPU = initialState.isCPU == null ? true : initialState.isCPU;
@@ -33,6 +34,10 @@ export class Player {
 
   getIsPlaying() {
     return this.isPlaying;
+  }
+
+  getLastAction() {
+    return this.lastAction;
   }
 
   //setters
