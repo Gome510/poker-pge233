@@ -1,7 +1,7 @@
 import { Player } from "./Player.js";
 import { Deck } from "./Deck.js";
-
-const phases = ["preflop", "flop", "turn", "river"];
+//TODO: Update EndOfPhase() to check if there are no actions left to make
+const phases = ["ante", "preflop", "flop", "turn", "river"];
 export class Poker {
   constructor(initialState = {}) {
     this.deck = new Deck(initialState.deck || {});
@@ -34,29 +34,34 @@ export class Poker {
   //player actions
   cpuAction() {
     switch (this.phase) {
+      case "ante":
+        this.action("ante-in");
       case "preflop":
-        this.anteInCurrentPlayer();
+        this.action("check");
         break;
       case "flop":
-        //check
-
+        this.action("check");
         break;
       case "turn":
-        //check
+        this.action("check");
         break;
       case "river":
-        //check
+        this.action("check");
         break;
       default:
     }
   }
 
-  action(actionType, amount = 0) {
+  async action(actionType = "", amount = 0) {
     const currentPlayer = this.currentPlayer();
     switch (actionType) {
+      case "ante-in":
+        currentPlayer.subtractBalance(this.ante);
+        this.addToPot(this.ante);
       case "check":
         currentPlayer.lastAction = actionType;
         break;
+
       case "bet":
       case "raise":
         if (amount == 0) {
@@ -68,19 +73,27 @@ export class Poker {
 
         currentPlayer.lastAction = actionType;
         currentPlayer.setBet(amount);
+        this.addToPot(amount - this.currentBid);
         this.currentBid = amount;
         break;
+
       case "call":
         currentPlayer.lastAction = actionType;
+        this.addToPot(amount - currentPlayer.bet);
         currentPlayer.setBet(this.getCurrentBid());
         break;
+
       case "fold":
         currentPlayer.lastAction = actionType;
         currentPlayer.setIsPlaying(false);
         break;
+
       default:
         console.error(`Bug: Poker: action(): ${actionType}, invalid action`);
+        return;
     }
+
+    await this.nextPlayer();
   }
 
   //helper functions
@@ -101,16 +114,50 @@ export class Poker {
     this.setRound(this.getRound() + 1);
   }
 
-  nextPlayer() {
-    this.setPlayerTurn((this.getPlayerTurn() + 1) % this.getPlayerCount());
+  async nextPlayer() {
+    if (this.endOfPhase()) {
+      await this.nextPhase();
+    }
+    this.setPlayerTurn((this.playerTurn + 1) % this.playerCount);
   }
 
-  nextPhase() {
+  async nextPhase() {
     const currentPhaseIndex = phases.findIndex(
       (phase) => phase == this.getPhase()
     );
-    const nextPhaseIndex = (currentPhaseIndex + 1) % 4;
+    const nextPhaseIndex = (currentPhaseIndex + 1) % phases.length;
     this.setPhase(phases[nextPhaseIndex]);
+    this.clearBid();
+
+    //perform next phase task
+    switch (this.phase) {
+      case "ante":
+        //clear all player cards and community cards
+        await this.deck.shuffle();
+        break;
+      case "preflop":
+        await this.prepareCards();
+        this.dealPlayerCards();
+        break;
+      case "flop":
+        //deal first 3 community cards
+        break;
+      case "turn":
+        //deal 4th community card
+        break;
+      case "river":
+        //deal 5th community card
+        break;
+      default:
+    }
+  }
+
+  addToPot(amount) {
+    this.pot += amount;
+  }
+
+  clearBid() {
+    this.currentBid = 0;
   }
 
   clearPot() {
@@ -123,14 +170,6 @@ export class Poker {
       this.playerTurn == this.playerCount - 1 &&
       this.currentPlayer().bet == this.currentBid
     );
-  }
-
-  anteInCurrentPlayer() {
-    let player = this.currentPlayer();
-    if (player.IsPlaying) {
-      player.balance -= this.ante;
-      this.pot += this.ante;
-    }
   }
 
   //returns current player object

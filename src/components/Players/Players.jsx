@@ -13,6 +13,7 @@ export default function Players({ players = [] }) {
     <>
       {players.map((player, index) => (
         <PlayerCard
+          key={index}
           top={cardCoords[index].top}
           left={cardCoords[index].left}
           player={player}

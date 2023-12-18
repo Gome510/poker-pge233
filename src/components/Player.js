@@ -10,6 +10,10 @@ export class Player {
     this.isPlaying = initialState.isPlaying || true;
   }
   //helper functions
+  bet(amount) {
+    this.subtractBalance(amount - this.bet);
+    this.setBet(amount);
+  }
 
   //getters
   getSeat() {
@@ -45,8 +49,22 @@ export class Player {
     this.seat = value;
   }
 
-  setBalance(value) {
-    this.balance = value;
+  addBalance(amount) {
+    this.balance += amount;
+  }
+
+  subtractBalance(amount = -1) {
+    if (amount < 0) {
+      console.error(
+        "Bug: Player: subtractBalance(): amount not provided or negative"
+      );
+    } else if (amount >= this.balance) {
+      //All-in
+      this.balance = 0;
+    } else {
+      //Normal Bet
+      this.balance = this.balance - amount;
+    }
   }
 
   setCards(value) {

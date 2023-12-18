@@ -17,19 +17,19 @@ function Game({ gameData }) {
 
     if (currentPlayer.isCPU) {
       let gameUpdate = new Poker(game);
-      gameUpdate.cpuAction();
-
-      if (gameUpdate.endOfPhase()) {
-        gameUpdate.nextPhase();
+      if (currentPlayer.isPlaying) {
+        gameUpdate.cpuAction();
       }
-      gameUpdate.nextPlayer();
+
       handleGameChange(gameUpdate);
     }
   }, [game]);
 
   return (
     <>
-      {game.playerTurn == 2 && <ActionBar game={game} />}
+      {game.playerTurn == 2 && (
+        <ActionBar game={game} handleGameChange={handleGameChange} />
+      )}
       <Players players={game.getPlayers()} />
       <TestToolbar game={game} handleGameChange={handleGameChange} />
     </>

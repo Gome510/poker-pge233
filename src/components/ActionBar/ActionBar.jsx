@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { Poker } from "../Poker.js";
 import "./ActionBar.css";
 
-export default function ActionBar({ game }) {
+export default function ActionBar({ game, handleGameChange }) {
+  //TODO: Change "sliderValue" to "betAmount". Implement betting slider.
   const [sliderValue, setSliderValue] = useState(50);
 
   function handleSliderChange(event) {
@@ -9,48 +11,37 @@ export default function ActionBar({ game }) {
     setSliderValue(value);
   }
 
-  function handleActionButtonClick(event) {
+  async function handleActionButtonClick(event) {
     const { value } = event.target;
-
-    switch (value) {
-      case "act-btn-1":
-        console.log(`Button Clicked: 1`);
-        break;
-      case "act-btn-2":
-        console.log(`Button Clicked: 2`);
-        break;
-      case "act-btn-3":
-        console.log(`Button Clicked: 3`);
-        break;
-
-      default:
-    }
+    const gameUpdate = new Poker(game);
+    await gameUpdate.action(value, sliderValue);
+    handleGameChange(gameUpdate);
   }
 
-  return (
+  const currentBid = game.getCurrentBid();
+
+  return game.phase == "ante" ? (
+    <AnteIn handleClick={handleActionButtonClick} />
+  ) : (
     <>
       <div className="action-bar">
         <button
           type="button"
-          value="act-btn-1"
+          value={currentBid == 0 ? "check" : "call"}
           onClick={handleActionButtonClick}
         >
-          {game.getCurrentBid() == 0 ? "Check" : "Call"}
+          {currentBid == 0 ? "Check" : "Call"}
         </button>
 
         <button
           type="button"
-          value="act-btn-2"
+          value={currentBid == 0 ? "bet" : "raise"}
           onClick={handleActionButtonClick}
         >
-          {game.getCurrentBid() == 0 ? "Bet" : "Raise"}
+          {currentBid == 0 ? "Bet" : "Raise"}
         </button>
 
-        <button
-          type="button"
-          value="act-btn-3"
-          onClick={handleActionButtonClick}
-        >
+        <button type="button" value="fold" onClick={handleActionButtonClick}>
           Fold
         </button>
       </div>
@@ -68,5 +59,15 @@ export default function ActionBar({ game }) {
         />
       </div>
     </>
+  );
+}
+
+function AnteIn({ handleClick }) {
+  return (
+    <div className="action-bar">
+      <button type="button" value="ante-in" onClick={handleClick}>
+        Ante-In
+      </button>
+    </div>
   );
 }
