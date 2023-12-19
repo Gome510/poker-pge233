@@ -2,7 +2,7 @@ import { Player } from "./Player.js";
 import { Deck } from "./Deck.js";
 //TODO: Update EndOfPhase() to check if there are no actions left to make
 const phases = ["ante", "preflop", "flop", "turn", "river"];
-export class Poker {
+export class Game {
   constructor(initialState = {}) {
     this.deck = new Deck(initialState.deck || {});
     this.phase = initialState.phase || phases[0];

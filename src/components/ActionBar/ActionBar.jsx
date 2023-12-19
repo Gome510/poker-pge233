@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Poker } from "../Poker.js";
+import { Game } from "../Game.js";
 import "./ActionBar.css";
 
 export default function ActionBar({ game, handleGameChange }) {
@@ -13,7 +13,7 @@ export default function ActionBar({ game, handleGameChange }) {
 
   async function handleActionButtonClick(event) {
     const { value } = event.target;
-    const gameUpdate = new Poker(game);
+    const gameUpdate = new Game(game);
     await gameUpdate.action(value, sliderValue);
     handleGameChange(gameUpdate);
   }

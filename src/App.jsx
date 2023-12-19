@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
-import Game from "./components/Game";
-import { Poker } from "./components/Poker";
+import GameComponent from "./components/GameComponent.jsx";
+import { Game } from "./components/Game.js";
 
 function App() {
   const [gameData, setGameData] = useState();
@@ -25,7 +25,7 @@ function App() {
           Start Poker Game
         </button>
       ) : (
-        <Game data={gameData} />
+        <GameComponent data={gameData} />
       )}
     </div>
   );
