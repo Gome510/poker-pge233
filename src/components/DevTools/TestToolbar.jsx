@@ -1,28 +1,28 @@
 import React from "react";
 import { Button } from "react-bootstrap";
-import { Poker } from "../Poker";
+import { Game } from "../Game.js";
 
 function TestToolbar({ game, handleGameChange }) {
   function handleRoundClick() {
-    let gameUpdate = new Poker(game);
+    let gameUpdate = new Game(game);
     gameUpdate.nextRound();
     handleGameChange(gameUpdate);
   }
 
   function handlePotClick() {
-    let gameUpdate = new Poker(game);
+    let gameUpdate = new Game(game);
     gameUpdate.clearPot();
     handleGameChange(gameUpdate);
   }
 
   function handlePhaseClick() {
-    let gameUpdate = new Poker(game);
+    let gameUpdate = new Game(game);
     gameUpdate.nextPhase();
     handleGameChange(gameUpdate);
   }
 
   function handlePlayerTurnClick() {
-    let gameUpdate = new Poker(game);
+    let gameUpdate = new Game(game);
     gameUpdate.nextPlayer();
     handleGameChange(gameUpdate);
   }

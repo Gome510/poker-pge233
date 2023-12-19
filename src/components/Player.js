@@ -15,7 +15,9 @@ export class Player {
     this.setBet(amount);
   }
 
-  //getters
+  // you dont need getters like this in javascript. Use the properties directly
+  // unless you are modifying their values before returning them.
+  // Learn more: https://javascript.info/property-accessors
   getSeat() {
     return this.seat;
   }
