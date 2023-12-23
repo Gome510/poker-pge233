@@ -3,8 +3,9 @@ export class Deck {
   constructor(initialState = {}) {
     this.id = initialState.id || "8qrpkf08dqfq";
     this.remaining = initialState.remaining || 52;
-    this.shuffled = initialState.shuffled || false;
+    this.shuffled = initialState.shuffled || true;
     this.drawn = initialState.drawn || [];
+    if (initialState.id == undefined) this.shuffle();
   }
 
   //api calls
