@@ -36,6 +36,7 @@ export class Poker {
     switch (this.phase) {
       case "ante":
         this.action("ante-in");
+
       case "preflop":
         this.action("check");
         break;
@@ -52,7 +53,7 @@ export class Poker {
     }
   }
 
-  async action(actionType = "", amount = 0) {
+  action(actionType = "", amount = 0) {
     const currentPlayer = this.currentPlayer();
     switch (actionType) {
       case "ante-in":
@@ -93,7 +94,7 @@ export class Poker {
         return;
     }
 
-    await this.nextPlayer();
+    this.nextPlayer();
   }
 
   //helper functions
@@ -114,14 +115,14 @@ export class Poker {
     this.setRound(this.getRound() + 1);
   }
 
-  async nextPlayer() {
+  nextPlayer() {
     if (this.endOfPhase()) {
-      await this.nextPhase();
+      this.nextPhase();
     }
     this.setPlayerTurn((this.playerTurn + 1) % this.playerCount);
   }
 
-  async nextPhase() {
+  nextPhase() {
     const currentPhaseIndex = phases.findIndex(
       (phase) => phase == this.getPhase()
     );
@@ -133,10 +134,10 @@ export class Poker {
     switch (this.phase) {
       case "ante":
         //clear all player cards and community cards
-        await this.deck.shuffle();
+        this.deck.shuffle();
         break;
       case "preflop":
-        await this.prepareCards();
+        this.prepareCards();
         this.dealPlayerCards();
         break;
       case "flop":
