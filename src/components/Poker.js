@@ -14,6 +14,7 @@ export class Poker {
     this.playerCount = initialState.playerCount || 5;
     this.players =
       initialState.players || this.initPlayers(this.getPlayerCount());
+    this.commmunityCards = initialState.commmunityCards || [];
   }
 
   //initialization
@@ -36,7 +37,7 @@ export class Poker {
     switch (this.phase) {
       case "ante":
         this.action("ante-in");
-
+        break;
       case "preflop":
         this.action("check");
         break;
@@ -97,7 +98,93 @@ export class Poker {
     this.nextPlayer();
   }
 
+  findWinner() {
+    let winner = 0;
+
+    this.players.forEach((player) => {
+      if (!player.isPlaying) return;
+
+      this.bestHand(player.cards);
+    });
+
+    return;
+  }
+
+  bestHand(cards = []) {
+    if (cards.length != 2) {
+      console.error(
+        "Poker.bestHand() requires a 'cards' array argument with exactly 2 elements"
+      );
+    }
+
+    const totalCards = [...this.commmunityCards, ...cards];
+    const pokerHands = {
+      "Royal Flush": false,
+      "Straight Flush": false,
+      "Four of a Kind": false,
+      "Full House": false,
+      Flush: false,
+      Straight: false,
+      "Three of a Kind": false,
+      "Two Pair": false,
+      "One Pair": false,
+      "High Card": false,
+    };
+
+    for (let i = 0; i < totalCards.length; i++) {
+      if (hasRoyalFlush(totalCards)) {
+        pokerHands["Royal Flush"] = true;
+      }
+    }
+  }
+
   //helper functions
+  hasRoyalFlush(cards = []) {
+    const mostAbundantSuit = this.findMostAbundantSuit(cards);
+    if (mostAbundantSuit.amount < 5) return false;
+
+    const flushCards = cards.filter(
+      (card) => card.suit == mostAbundantSuit.suit
+    );
+    const flushCardValues = Object.values(flushCards);
+
+    let royalCards = ["ACE", "KING", "QUEEN", "JACK", "10"];
+    let isRoyalFlush = true;
+
+    while (isRoyalFlush) {
+      if (royalCards.length == 0) break;
+
+      if (!flushCardValues.includes(royalCards.pop())) isRoyalFlush = false;
+    }
+
+    return isRoyalFlush;
+  }
+
+  findMostAbundantSuit(cards = []) {
+    let countSuits = {
+      CLUBS: 0,
+      HEARTS: 0,
+      SPADES: 0,
+      DIAMONDS: 0,
+    };
+
+    cards.forEach((card) => {
+      countSuits[card.suit]++;
+    });
+
+    let mostSuitName = "";
+    let mostSuitCount = 0;
+    Object.keys(countSuits).forEach((suit) => {
+      if (countSuits[suit] > mostSuitCount) {
+        mostSuitCount = countSuits[suit];
+        mostSuitName = suit;
+      }
+    });
+    return {
+      suit: mostSuitName,
+      amount: mostSuitCount,
+    };
+  }
 
   //draw and store 5 community cards and 2 cards per player
   async prepareCards() {
@@ -109,6 +196,22 @@ export class Poker {
       player.cards.push(this.deck.drawn.pop());
       player.cards.push(this.deck.drawn.pop());
     }, this);
+  }
+
+  dealCommunityCards() {
+    switch (this.phase) {
+      case "flop":
+        for (let i = 0; i < 3; i++)
+          this.commmunityCards.push(this.deck.drawn.pop());
+        break;
+      case "turn":
+        this.commmunityCards.push(this.deck.drawn.pop());
+        break;
+      case "river":
+        this.commmunityCards.push(this.deck.drawn.pop());
+        break;
+      default:
+    }
   }
 
   nextRound() {

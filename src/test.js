@@ -2,6 +2,8 @@ import { Poker } from "./components/Poker.js";
 
 testAnteInAllPlayers();
 testCpuAction();
+testDealCommunityCards();
+testMostAbundantSuitHEARTS();
 
 function testAnteInAllPlayers() {
   let pass = true;
@@ -44,4 +46,124 @@ function testCpuAction(initialState = {}) {
   }
 
   console.log(`testCpuAction: ${pass ? "Success" : "Failed"}`);
+}
+
+function testDealCommunityCards() {
+  const game = new Poker();
+  let pass = true;
+
+  game.nextPhase(); // pre-flop
+  game.dealPlayerCards();
+
+  game.nextPhase(); // flop
+  game.dealCommunityCards();
+  if (game.commmunityCards.length != 3) {
+    console.log(
+      `testDealCommunityCards: Error: # of community cards @ flop = ${game.commmunityCards.length}`
+    );
+    pass = false;
+  }
+  game.nextPhase(); // turn
+  game.dealCommunityCards();
+  if (game.commmunityCards.length != 4) {
+    console.log(
+      `testDealCommunityCards: Error: # of community cards @ turn = ${game.commmunityCards.length}`
+    );
+    pass = false;
+  }
+  game.nextPhase(); // river
+  game.dealCommunityCards();
+  if (game.commmunityCards.length != 5) {
+    console.log(
+      `testDealCommunityCards: Error: # of community cards @ river = ${game.commmunityCards.length}`
+    );
+    pass = false;
+  }
+  console.log(`testDealCommunityCards: ${pass ? "Success" : "Failed"}`);
+  return;
+}
+
+function testFindWinner() {
+  const game = new Poker();
+
+  game.commmunityCards = [
+    {
+      value: "9",
+      suit: "CLUBS",
+    },
+    {
+      value: "6",
+      suit: "DIAMONDS",
+    },
+    {
+      value: "9",
+      suit: "SPADES",
+    },
+    {
+      value: "KING",
+      suit: "CLUBS",
+    },
+    {
+      value: "2",
+      suit: "HEARTS",
+    },
+  ];
+
+  game.players[0].cards = [
+    {
+      value: "9",
+      suit: "HEARTS",
+    },
+    {
+      value: "9",
+      suit: "DIAMONDS",
+    },
+  ];
+
+  for (let i = 1; i < game.playerCount(); i++) {
+    game.players[i].cards = [
+      {
+        value: `${i + 1}`,
+        suit: "SPADES",
+      },
+      {
+        value: `${i + 1}`,
+        suit: "CLUBS",
+      },
+    ];
+  }
+
+  //const winner = game.findWinner()
+  if (winner != 1) {
+    console.log(`testFindWinner(): Error: Winner reported as Player ${winner}`);
+  }
+}
+
+function testMostAbundantSuitHEARTS() {
+  let pass = true;
+  let game = new Poker();
+  game.commmunityCards = [
+    { value: "QUEEN", suit: "HEARTS" },
+    { value: "JACK", suit: "HEARTS" },
+    { value: "10", suit: "HEARTS" },
+    { value: "10", suit: "SPADES" },
+    { value: "10", suit: "DIAMONDS" },
+  ];
+  game.players[0].cards = [
+    { value: "ACE", suit: "HEARTS" },
+    { value: "KING", suit: "HEARTS" },
+  ];
+  const totalCards = [...game.commmunityCards, ...game.players[0].cards];
+
+  const result = game.findMostAbundantSuit(totalCards);
+
+  if (result.suit != "HEARTS") {
+    console.log(
+      `testMostAbundantSuitHEARTS: Error: most abundant suit was ${result.suit}`
+    );
+    pass = false;
+  }
+
+  console.log(`testMostAbundantSuitHEARTS: ${pass ? "Success" : "Failed"}`);
+  return;
 }
