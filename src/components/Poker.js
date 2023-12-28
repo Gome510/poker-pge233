@@ -146,7 +146,7 @@ export class Poker {
     const flushCards = cards.filter(
       (card) => card.suit == mostAbundantSuit.suit
     );
-    const flushCardValues = Object.values(flushCards);
+    const flushCardValues = flushCards.map((card) => card.value);
 
     let royalCards = ["ACE", "KING", "QUEEN", "JACK", "10"];
     let isRoyalFlush = true;
