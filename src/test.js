@@ -4,6 +4,7 @@ testAnteInAllPlayers();
 testCpuAction();
 testDealCommunityCards();
 testMostAbundantSuitHEARTS();
+testHasRoyalFlushTRUE();
 
 function testAnteInAllPlayers() {
   let pass = true;
@@ -165,5 +166,32 @@ function testMostAbundantSuitHEARTS() {
   }
 
   console.log(`testMostAbundantSuitHEARTS: ${pass ? "Success" : "Failed"}`);
+  return;
+}
+
+function testHasRoyalFlushTRUE() {
+  let pass = true;
+  let game = new Poker();
+  game.commmunityCards = [
+    { value: "QUEEN", suit: "HEARTS" },
+    { value: "JACK", suit: "HEARTS" },
+    { value: "10", suit: "HEARTS" },
+    { value: "10", suit: "SPADES" },
+    { value: "10", suit: "DIAMONDS" },
+  ];
+  game.players[0].cards = [
+    { value: "ACE", suit: "HEARTS" },
+    { value: "KING", suit: "HEARTS" },
+  ];
+  const totalCards = [...game.commmunityCards, ...game.players[0].cards];
+
+  const result = game.hasRoyalFlush(totalCards);
+
+  if (result == false) {
+    console.log(`testHasRoyalFlushTRUE: Error: The result was ${result}`);
+    pass = false;
+  }
+
+  console.log(`testHasRoyalFlushTRUE: ${pass ? "Success" : "Failed"}`);
   return;
 }
