@@ -118,7 +118,7 @@ export class Poker {
     }
 
     const totalCards = [...this.commmunityCards, ...cards];
-    const pokerHands = {
+    let pokerHands = {
       "Royal Flush": false,
       "Straight Flush": false,
       "Four of a Kind": false,
@@ -131,11 +131,37 @@ export class Poker {
       "High Card": false,
     };
 
-    for (let i = 0; i < totalCards.length; i++) {
-      if (hasRoyalFlush(totalCards)) {
-        pokerHands["Royal Flush"] = true;
-      }
+    //TODO: hasStraightFlush, Flush, Straight, FourOfAKind, FullHouse, ThreeOfAKind, TwoPair, OnePair, HighCard
+
+    if (hasRoyalFlush(totalCards)) {
+      pokerHands["Royal Flush"] = true;
+    } else if (hasStraightFlush(totalCards)) {
+      pokerHands["Straight Flush"] = true;
+    } else if (hasFlush(totalCards)) {
+      pokerHands["Flush"] = true;
+    } else if (hasStraight(totalCards)) {
+      pokerHands["Straight"] = true;
     }
+
+    if (hasFourOfAKind(totalCards)) {
+      pokerHands["Four of a Kind"] = true;
+      //create a copy of total cards
+      //remove four of a kind from the copy
+      //check if the remaining cards has a three of a kind or pair.
+    } else if (hasFullHouse(totalCards)) {
+      pokerHands["Full House"] = true;
+      //create a copy of total cards
+      //remove full house from the copy
+      //check if the remaining cards has a pair
+    } else if (hasThreeOfAKind(totalCards)) {
+      pokerHands["Three of a Kind"] = true;
+    } else if (hasTwoPair(totalCards)) {
+      pokerHands["Two Pair"] = true;
+    } else if (hasOnePair(totalCards)) {
+      pokerHands["One Pair"] = true;
+    }
+
+    return pokerHands;
   }
 
   //helper functions
