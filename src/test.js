@@ -6,6 +6,12 @@ testDealCommunityCards();
 testMostAbundantSuitHEARTS();
 testHasRoyalFlushTRUE();
 testHasRoyalFlushFALSE();
+testHasStraightFlushTRUE();
+testHasStraightFlushFALSE();
+testHasFlushTRUE();
+testHasFlushFALSE();
+testHasStraightTRUE();
+testHasStraightFALSE();
 
 function testAnteInAllPlayers() {
   let pass = true;
@@ -221,5 +227,167 @@ function testHasRoyalFlushFALSE() {
   }
 
   console.log(`testHasRoyalFlushFALSE: ${pass ? "Success" : "Failed"}`);
+  return;
+}
+
+function testHasStraightFlushTRUE() {
+  let pass = true;
+  let game = new Poker();
+  game.commmunityCards = [
+    { value: "QUEEN", suit: "HEARTS" },
+    { value: "5", suit: "HEARTS" },
+    { value: "4", suit: "HEARTS" },
+    { value: "3", suit: "HEARTS" },
+    { value: "2", suit: "HEARTS" },
+  ];
+  game.players[0].cards = [
+    { value: "ACE", suit: "HEARTS" },
+    { value: "KING", suit: "HEARTS" },
+  ];
+  const totalCards = [...game.commmunityCards, ...game.players[0].cards];
+
+  const result = game.hasStraightFlush(totalCards);
+
+  if (result == false) {
+    console.log(`testHasStraightFlushTRUE: Error: The result was ${result}`);
+    pass = false;
+  }
+
+  console.log(`testHasStraightFlushTRUE: ${pass ? "Success" : "Failed"}`);
+  return;
+}
+
+function testHasStraightFlushFALSE() {
+  let pass = true;
+  let game = new Poker();
+  game.commmunityCards = [
+    { value: "QUEEN", suit: "HEARTS" },
+    { value: "6", suit: "HEARTS" },
+    { value: "4", suit: "HEARTS" },
+    { value: "3", suit: "HEARTS" },
+    { value: "2", suit: "HEARTS" },
+  ];
+  game.players[0].cards = [
+    { value: "ACE", suit: "HEARTS" },
+    { value: "KING", suit: "HEARTS" },
+  ];
+  const totalCards = [...game.commmunityCards, ...game.players[0].cards];
+
+  const result = game.hasStraightFlush(totalCards);
+
+  if (result == true) {
+    console.log(`testHasStraightFlushFALSE: Error: The result was ${result}`);
+    pass = false;
+  }
+
+  console.log(`testHasStraightFlushFALSE: ${pass ? "Success" : "Failed"}`);
+  return;
+}
+
+function testHasFlushTRUE() {
+  let pass = true;
+  let game = new Poker();
+  game.commmunityCards = [
+    { value: "QUEEN", suit: "HEARTS" },
+    { value: "6", suit: "HEARTS" },
+    { value: "4", suit: "HEARTS" },
+    { value: "3", suit: "HEARTS" },
+    { value: "2", suit: "HEARTS" },
+  ];
+  game.players[0].cards = [
+    { value: "ACE", suit: "HEARTS" },
+    { value: "KING", suit: "HEARTS" },
+  ];
+  const totalCards = [...game.commmunityCards, ...game.players[0].cards];
+
+  const result = game.hasFlush(totalCards);
+
+  if (result == false) {
+    console.log(`testHasFlushTRUE: Error: The result was ${result}`);
+    pass = false;
+  }
+
+  console.log(`testHasFlushTRUE: ${pass ? "Success" : "Failed"}`);
+  return;
+}
+
+function testHasFlushFALSE() {
+  let pass = true;
+  let game = new Poker();
+  game.commmunityCards = [
+    { value: "QUEEN", suit: "HEARTS" },
+    { value: "6", suit: "SPADES" },
+    { value: "4", suit: "SPADES" },
+    { value: "3", suit: "SPADES" },
+    { value: "2", suit: "HEARTS" },
+  ];
+  game.players[0].cards = [
+    { value: "ACE", suit: "HEARTS" },
+    { value: "KING", suit: "HEARTS" },
+  ];
+  const totalCards = [...game.commmunityCards, ...game.players[0].cards];
+
+  const result = game.hasFlush(totalCards);
+
+  if (result == true) {
+    console.log(`testHasFlushFALSE: Error: The result was ${result}`);
+    pass = false;
+  }
+
+  console.log(`testHasFlushFALSE: ${pass ? "Success" : "Failed"}`);
+  return;
+}
+
+function testHasStraightTRUE() {
+  let pass = true;
+  let game = new Poker();
+  game.commmunityCards = [
+    { value: "QUEEN", suit: "HEARTS" },
+    { value: "5", suit: "HEARTS" },
+    { value: "4", suit: "HEARTS" },
+    { value: "3", suit: "SPADES" },
+    { value: "2", suit: "SPADES" },
+  ];
+  game.players[0].cards = [
+    { value: "ACE", suit: "SPADES" },
+    { value: "KING", suit: "HEARTS" },
+  ];
+  const totalCards = [...game.commmunityCards, ...game.players[0].cards];
+
+  const result = game.hasStraight(totalCards);
+
+  if (result == false) {
+    console.log(`testHasStraightTRUE: Error: The result was ${result}`);
+    pass = false;
+  }
+
+  console.log(`testHasStraightTRUE: ${pass ? "Success" : "Failed"}`);
+  return;
+}
+
+function testHasStraightFALSE() {
+  let pass = true;
+  let game = new Poker();
+  game.commmunityCards = [
+    { value: "QUEEN", suit: "HEARTS" },
+    { value: "5", suit: "HEARTS" },
+    { value: "4", suit: "HEARTS" },
+    { value: "7", suit: "SPADES" },
+    { value: "2", suit: "SPADES" },
+  ];
+  game.players[0].cards = [
+    { value: "ACE", suit: "SPADES" },
+    { value: "KING", suit: "HEARTS" },
+  ];
+  const totalCards = [...game.commmunityCards, ...game.players[0].cards];
+
+  const result = game.hasStraight(totalCards);
+
+  if (result == true) {
+    console.log(`testHasStraightFALSE: Error: The result was ${result}`);
+    pass = false;
+  }
+
+  console.log(`testHasStraightFALSE: ${pass ? "Success" : "Failed"}`);
   return;
 }

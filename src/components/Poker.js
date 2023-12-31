@@ -131,7 +131,7 @@ export class Poker {
       "High Card": false,
     };
 
-    //TODO: hasStraightFlush, Flush, Straight, FourOfAKind, FullHouse, ThreeOfAKind, TwoPair, OnePair, HighCard
+    //TODO: FourOfAKind, FullHouse, ThreeOfAKind, TwoPair, OnePair, HighCard
 
     if (hasRoyalFlush(totalCards)) {
       pokerHands["Royal Flush"] = true;
@@ -184,6 +184,62 @@ export class Poker {
     }
 
     return isRoyalFlush;
+  }
+
+  hasStraightFlush(cards = []) {
+    //check for flush
+    const mostAbundantSuit = this.findMostAbundantSuit(cards);
+    if (mostAbundantSuit.amount < 5) return false;
+
+    const flushCards = cards.filter(
+      (card) => card.suit == mostAbundantSuit.suit
+    );
+
+    return this.hasStraight(flushCards);
+  }
+
+  hasFlush(cards = []) {
+    //check for flush
+    const mostAbundantSuit = this.findMostAbundantSuit(cards);
+    if (mostAbundantSuit.amount < 5) return false;
+    return true;
+  }
+
+  hasStraight(cards = []) {
+    //assign card values integer values
+    let cardValues = cards.map((card) => this.cardValueToInt(card.value));
+
+    //Ace can count as 1 or 14
+    if (cardValues.includes(14)) cardValues.push(1);
+    //sort high to low
+    const sortedFlushCardValues = cardValues.sort((a, b) => b - a);
+
+    //check for straight
+    for (let i = 0; i < sortedFlushCardValues.length - 4; i++) {
+      let straight = false;
+      for (let j = 1; j < 5; j++) {
+        straight = sortedFlushCardValues[i] - j == sortedFlushCardValues[i + j];
+        if (!straight) break;
+        if (straight && j == 4) return true;
+      }
+    }
+    return false;
+  }
+
+  cardValueToInt(value) {
+    switch (value) {
+      //Could be 1 or 14
+      case "ACE":
+        return 14;
+      case "KING":
+        return 13;
+      case "QUEEN":
+        return 12;
+      case "JACK":
+        return 11;
+      default:
+        return parseInt(value);
+    }
   }
 
   findMostAbundantSuit(cards = []) {
