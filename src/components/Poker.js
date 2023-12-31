@@ -131,7 +131,7 @@ export class Poker {
       "High Card": false,
     };
 
-    //TODO: FourOfAKind, FullHouse, ThreeOfAKind, TwoPair, OnePair, HighCard
+    //TODO: HighCard
 
     if (hasRoyalFlush(totalCards)) {
       pokerHands["Royal Flush"] = true;
@@ -226,9 +226,43 @@ export class Poker {
     return false;
   }
 
+  hasFourOfAKind(cards = []) {
+    const mostAbundantValue = this.findMostAbundantValue(cards);
+    if (mostAbundantValue.amount != 4) return false;
+    return true;
+  }
+
+  hasThreeOfAKind(cards = []) {
+    const mostAbundantValue = this.findMostAbundantValue(cards);
+    if (mostAbundantValue.amount != 3) return false;
+    return true;
+  }
+
+  hasTwoPair(cards = []) {
+    //check for first pair
+    const mostAbundantValue = this.findMostAbundantValue(cards);
+    if (mostAbundantValue.amount != 2) return false;
+
+    //remove first pair to check for second pair
+    const cardsWithoutFirstPair = cards.filter(
+      (card) => card.value != mostAbundantValue.value
+    );
+    const nextMostAbundantValue = this.findMostAbundantValue(
+      cardsWithoutFirstPair
+    );
+    if (nextMostAbundantValue.amount != 2) return false;
+
+    return true;
+  }
+
+  hasPair(cards = []) {
+    const mostAbundantValue = this.findMostAbundantValue(cards);
+    if (mostAbundantValue.amount != 2) return false;
+    return true;
+  }
+
   cardValueToInt(value) {
     switch (value) {
-      //Could be 1 or 14
       case "ACE":
         return 14;
       case "KING":
@@ -266,6 +300,39 @@ export class Poker {
       suit: mostSuitName,
       amount: mostSuitCount,
     };
+  }
+
+  findMostAbundantValue(cards = []) {
+    const foundValues = this.countCardValues(cards);
+    //find most abundant value
+    let mostValueName = "";
+    let mostValueCount = 0;
+    Object.keys(foundValues).forEach((suit) => {
+      if (foundValues[suit] > mostValueCount) {
+        mostValueCount = foundValues[suit];
+        mostValueName = suit;
+      }
+    });
+    return {
+      value: mostValueName,
+      amount: mostValueCount,
+    };
+  }
+
+  countCardValues(cards = []) {
+    //count all values
+    let foundValues = {};
+    cards.forEach((card) => {
+      if (foundValues[card.value]) {
+        foundValues[card.value]++;
+      } else {
+        foundValues = {
+          ...foundValues,
+          [card.value]: 1,
+        };
+      }
+    });
+    return foundValues;
   }
 
   //draw and store 5 community cards and 2 cards per player
