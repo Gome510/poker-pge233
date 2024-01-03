@@ -110,7 +110,7 @@ export class Poker {
     return;
   }
 
-  bestHand(cards = []) {
+  findBestHands(cards = []) {
     if (cards.length != 2) {
       console.error(
         "Poker.bestHand() requires a 'cards' array argument with exactly 2 elements"
@@ -133,31 +133,46 @@ export class Poker {
 
     //TODO: HighCard
 
-    if (hasRoyalFlush(totalCards)) {
+    if (this.hasRoyalFlush(totalCards)) {
       pokerHands["Royal Flush"] = true;
-    } else if (hasStraightFlush(totalCards)) {
+    } else if (this.hasStraightFlush(totalCards)) {
       pokerHands["Straight Flush"] = true;
-    } else if (hasFlush(totalCards)) {
+    } else if (this.hasFlush(totalCards)) {
       pokerHands["Flush"] = true;
-    } else if (hasStraight(totalCards)) {
+    } else if (this.hasStraight(totalCards)) {
       pokerHands["Straight"] = true;
     }
 
-    if (hasFourOfAKind(totalCards)) {
+    if (this.hasFourOfAKind(totalCards)) {
       pokerHands["Four of a Kind"] = true;
       //create a copy of total cards
       //remove four of a kind from the copy
+      const mostAbundantValue = this.findMostAbundantValue(totalCards);
+      const cardsWithoutFourOfAKind = totalCards.filter(
+        (card) => card.value != mostAbundantValue.value
+      );
+
       //check if the remaining cards has a three of a kind or pair.
-    } else if (hasFullHouse(totalCards)) {
+      if (this.hasThreeOfAKind(cardsWithoutFourOfAKind))
+        pokerHands["Three of a Kind"] = true;
+    } else if (this.hasFullHouse(totalCards)) {
       pokerHands["Full House"] = true;
+
       //create a copy of total cards
       //remove full house from the copy
+      const mostAbundantValue = this.findMostAbundantValue(totalCards);
+      const cardsWithoutThreeOfAKind = totalCards.filter(
+        (card) => card.value != mostAbundantValue.value
+      );
+
       //check if the remaining cards has a pair
-    } else if (hasThreeOfAKind(totalCards)) {
+      if (this.hasPair(cardsWithoutThreeOfAKind))
+        pokerHands["Three of a Kind"] = true;
+    } else if (this.hasThreeOfAKind(totalCards)) {
       pokerHands["Three of a Kind"] = true;
-    } else if (hasTwoPair(totalCards)) {
+    } else if (this.hasTwoPair(totalCards)) {
       pokerHands["Two Pair"] = true;
-    } else if (hasOnePair(totalCards)) {
+    } else if (this.hasPair(totalCards)) {
       pokerHands["One Pair"] = true;
     }
 
@@ -229,6 +244,23 @@ export class Poker {
   hasFourOfAKind(cards = []) {
     const mostAbundantValue = this.findMostAbundantValue(cards);
     if (mostAbundantValue.amount != 4) return false;
+    return true;
+  }
+
+  hasFullHouse(cards = []) {
+    const mostAbundantValue = this.findMostAbundantValue(cards);
+    if (mostAbundantValue.amount != 3) return false;
+
+    //remove three of a kind to check for pair
+    const cardsWithoutThreeOfAKind = cards.filter(
+      (card) => card.value != mostAbundantValue.value
+    );
+
+    const nextMostAbundantValue = this.findMostAbundantValue(
+      cardsWithoutThreeOfAKind
+    );
+    if (nextMostAbundantValue.amount != 2) return false;
+
     return true;
   }
 

@@ -15,6 +15,8 @@ testHasStraightTRUE();
 testHasStraightFALSE();
 testHasFourOfAKindTRUE();
 testHasFourOfAKindFALSE();
+testHasFullHouseTRUE();
+testHasFullHouseFALSE();
 testHasThreeOfAKindTRUE();
 testHasThreeOfAKindFALSE();
 testHasTwoPairTRUE();
@@ -481,6 +483,60 @@ function testHasFourOfAKindFALSE() {
   }
 
   console.log(`testHasFourOfAKindFALSE: ${pass ? "Success" : "Failed"}`);
+  return;
+}
+
+function testHasFullHouseTRUE() {
+  let pass = true;
+  let game = new Poker();
+  game.commmunityCards = [
+    { value: "QUEEN", suit: "HEARTS" },
+    { value: "2", suit: "CLUBS" },
+    { value: "3", suit: "HEARTS" },
+    { value: "2", suit: "DIAMONDS" },
+    { value: "3", suit: "SPADES" },
+  ];
+  game.players[0].cards = [
+    { value: "2", suit: "SPADES" },
+    { value: "KING", suit: "HEARTS" },
+  ];
+  const totalCards = [...game.commmunityCards, ...game.players[0].cards];
+
+  const result = game.hasFullHouse(totalCards);
+
+  if (result == false) {
+    console.log(`testHasFullHouseTRUE: Error: The result was ${result}`);
+    pass = false;
+  }
+
+  console.log(`testHasFullHouseTRUE: ${pass ? "Success" : "Failed"}`);
+  return;
+}
+
+function testHasFullHouseFALSE() {
+  let pass = true;
+  let game = new Poker();
+  game.commmunityCards = [
+    { value: "QUEEN", suit: "HEARTS" },
+    { value: "2", suit: "CLUBS" },
+    { value: "3", suit: "HEARTS" },
+    { value: "2", suit: "DIAMONDS" },
+    { value: "3", suit: "SPADES" },
+  ];
+  game.players[0].cards = [
+    { value: "2", suit: "SPADES" },
+    { value: "KING", suit: "HEARTS" },
+  ];
+  const totalCards = [...game.commmunityCards, ...game.players[0].cards];
+
+  const result = game.hasFullHouse(totalCards);
+
+  if (result == false) {
+    console.log(`testHasFullHouseTRUE: Error: The result was ${result}`);
+    pass = false;
+  }
+
+  console.log(`testHasFullHouseTRUE: ${pass ? "Success" : "Failed"}`);
   return;
 }
 
