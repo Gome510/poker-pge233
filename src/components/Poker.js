@@ -111,20 +111,26 @@ export class Poker {
     this.nextPlayer();
   }
 
-  findWinner() {
-    let playersWithBestHand = [];
-    let winningHandRank = 0;
+  findWinners() {
+    let sortedPlayers = [...this.players];
+    sortedPlayers.sort((A, B) =>
+      this.compareHands(this.findHands(B.cards), this.findHands(A.cards))
+    );
 
-    this.players.forEach((player) => {
-      if (!player.isPlaying) return;
-
-      const hands = this.findHands(player.cards);
-      const bestHand = this.findBestHand(hands);
-      if (handRanks[bestHand] == winningHandRank) {
+    let winners = [];
+    for (let i = 1; i < sortedPlayers.length; i++) {
+      if (
+        this.compareHands(
+          this.findHands(sortedPlayers[0].cards),
+          this.findHands(sortedPlayers[i].cards)
+        ) > 0
+      ) {
+        winners = sortedPlayers.slice(0, i);
+        break;
       }
-    });
+    }
 
-    return winnerId;
+    return winners;
   }
 
   findBestHand(hands = {}) {
@@ -134,6 +140,24 @@ export class Poker {
         return handKeys[i];
       }
     }
+  }
+
+  compareHands(playerAHands = {}, playerBHands = {}) {
+    const handKeys = Object.keys(handRanks);
+    for (let i = 0; i < handKeys.length; i++) {
+      if (handKeys[i] == "Full House") {
+        const handDifs = [
+          playerAHands["Full House"][0] - playerBHands["Full House"][0],
+          playerAHands["Full House"][1] - playerBHands["Full House"][1],
+        ];
+        if (handDifs[0] != 0) return handDifs[0];
+        if (handDifs[1] != 0) return handDifs[1];
+      }
+
+      const handDif = playerAHands[handKeys[i]] - playerBHands[handKeys[i]];
+      if (handDif != 0) return handDif;
+    }
+    return 0;
   }
 
   findHands(cards = []) {
@@ -152,7 +176,7 @@ export class Poker {
       Flush: 0,
       Straight: 0,
       "Three of a Kind": 0,
-      "Two Pair": [],
+      "Two Pair": 0,
       "One Pair": 0,
       "High Card": 0,
     };
@@ -314,7 +338,7 @@ export class Poker {
   hasTwoPair(cards = []) {
     //check for first pair
     const mostAbundantValue = this.findMostAbundantValue(cards);
-    if (mostAbundantValue.amount != 2) return [];
+    if (mostAbundantValue.amount != 2) return 0;
 
     //remove first pair to check for second pair
     const cardsWithoutFirstPair = cards.filter(
@@ -323,12 +347,12 @@ export class Poker {
     const nextMostAbundantValue = this.findMostAbundantValue(
       cardsWithoutFirstPair
     );
-    if (nextMostAbundantValue.amount != 2) return [];
+    if (nextMostAbundantValue.amount != 2) return 0;
 
-    return [
+    return Math.max(
       this.cardValueToInt(mostAbundantValue.value),
-      this.cardValueToInt(nextMostAbundantValue.value),
-    ];
+      this.cardValueToInt(nextMostAbundantValue.value)
+    );
   }
 
   hasPair(cards = []) {

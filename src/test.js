@@ -23,6 +23,7 @@ testHasTwoPairTRUE();
 testHasTwoPairFALSE();
 testHasPairTRUE();
 testHasPairFALSE();
+testFindWinner();
 
 function testAnteInAllPlayers() {
   let pass = true;
@@ -104,6 +105,7 @@ function testDealCommunityCards() {
 
 function testFindWinner() {
   const game = new Poker();
+  let pass = true;
 
   game.commmunityCards = [
     {
@@ -139,7 +141,7 @@ function testFindWinner() {
     },
   ];
 
-  for (let i = 1; i < game.playerCount(); i++) {
+  for (let i = 1; i < game.playerCount; i++) {
     game.players[i].cards = [
       {
         value: `${i + 1}`,
@@ -152,10 +154,17 @@ function testFindWinner() {
     ];
   }
 
-  //const winner = game.findWinner()
-  if (winner != 1) {
-    console.log(`testFindWinner(): Error: Winner reported as Player ${winner}`);
+  const winner = game.findWinners();
+
+  if (winner[0].seat != 1) {
+    console.log(
+      `testFindWinner(): Error: Winner reported as Player ${winner[0].seat}`
+    );
+    pass = false;
   }
+
+  console.log(`testFindWinner: ${pass ? "Success" : "Failed"}`);
+  return;
 }
 
 function testMostAbundantSuitHEARTS() {
@@ -612,7 +621,7 @@ function testHasTwoPairTRUE() {
 
   const result = game.hasTwoPair(totalCards);
 
-  if (result[0] != 1 || result[1] != 3) {
+  if (result != 3) {
     console.log(`testHasTwoPairTRUE: Error: The result was ${result}`);
     pass = false;
   }
@@ -639,7 +648,7 @@ function testHasTwoPairFALSE() {
 
   const result = game.hasTwoPair(totalCards);
 
-  if (result.length != 0) {
+  if (result != 0) {
     console.log(`testHasTwoPairFALSE: Error: The result was ${result}`);
     pass = false;
   }
