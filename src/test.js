@@ -234,7 +234,7 @@ function testHasRoyalFlushTRUE() {
 
   const result = game.hasRoyalFlush(totalCards);
 
-  if (result == false) {
+  if (result == 0) {
     console.log(`testHasRoyalFlushTRUE: Error: The result was ${result}`);
     pass = false;
   }
@@ -261,7 +261,7 @@ function testHasRoyalFlushFALSE() {
 
   const result = game.hasRoyalFlush(totalCards);
 
-  if (result == true) {
+  if (result > 0) {
     console.log(`testHasRoyalFlushFALSE: Error: The result was ${result}`);
     pass = false;
   }
@@ -396,7 +396,7 @@ function testHasStraightTRUE() {
 
   const result = game.hasStraight(totalCards);
 
-  if (result == false) {
+  if (result == 0) {
     console.log(`testHasStraightTRUE: Error: The result was ${result}`);
     pass = false;
   }
@@ -423,7 +423,7 @@ function testHasStraightFALSE() {
 
   const result = game.hasStraight(totalCards);
 
-  if (result == true) {
+  if (result > 0) {
     console.log(`testHasStraightFALSE: Error: The result was ${result}`);
     pass = false;
   }
@@ -531,7 +531,7 @@ function testHasFullHouseFALSE() {
 
   const result = game.hasFullHouse(totalCards);
 
-  if (result == false) {
+  if (result.length == 2) {
     console.log(`testHasFullHouseTRUE: Error: The result was ${result}`);
     pass = false;
   }

@@ -2,6 +2,19 @@ import { Player } from "./Player.js";
 import { Deck } from "./Deck.js";
 //TODO: Update EndOfPhase() to check if there are no actions left to make
 const phases = ["ante", "preflop", "flop", "turn", "river"];
+const handRanks = {
+  "Royal Flush": 10,
+  "Straight Flush": 9,
+  "Four of a Kind": 8,
+  "Full House": 7,
+  Flush: 6,
+  Straight: 5,
+  "Three of a Kind": 4,
+  "Two Pair": 3,
+  "One Pair": 2,
+  "High Card": 1,
+};
+
 export class Poker {
   constructor(initialState = {}) {
     this.deck = new Deck(initialState.deck || {});
@@ -99,18 +112,31 @@ export class Poker {
   }
 
   findWinner() {
-    let winner = 0;
+    let playersWithBestHand = [];
+    let winningHandRank = 0;
 
     this.players.forEach((player) => {
       if (!player.isPlaying) return;
 
-      this.bestHand(player.cards);
+      const hands = this.findHands(player.cards);
+      const bestHand = this.findBestHand(hands);
+      if (handRanks[bestHand] == winningHandRank) {
+      }
     });
 
-    return;
+    return winnerId;
   }
 
-  findBestHands(cards = []) {
+  findBestHand(hands = {}) {
+    const handKeys = Object.keys(hands);
+    for (let i = 0; i < handKeys.length; i++) {
+      if (hands[handKeys[i]] == true) {
+        return handKeys[i];
+      }
+    }
+  }
+
+  findHands(cards = []) {
     if (cards.length != 2) {
       console.error(
         "Poker.bestHand() requires a 'cards' array argument with exactly 2 elements"
@@ -178,8 +204,8 @@ export class Poker {
 
     return pokerHands;
   }
-
-  //helper functions
+  //TODO: refactor hand detection functions to return 0 if not found and else sum of all card values in that hand
+  //hand detection
   hasRoyalFlush(cards = []) {
     const mostAbundantSuit = this.findMostAbundantSuit(cards);
     if (mostAbundantSuit.amount < 5) return false;
@@ -190,15 +216,16 @@ export class Poker {
     const flushCardValues = flushCards.map((card) => card.value);
 
     let royalCards = ["ACE", "KING", "QUEEN", "JACK", "10"];
-    let isRoyalFlush = true;
+    let royalFlushValue = 1;
 
-    while (isRoyalFlush) {
+    while (royalFlushValue != 0) {
       if (royalCards.length == 0) break;
-
-      if (!flushCardValues.includes(royalCards.pop())) isRoyalFlush = false;
+      const nextCard = royalCards.pop();
+      if (!flushCardValues.includes(nextCard)) royalFlushValue = 0;
+      royalFlushValue += this.cardValueToInt(nextCard);
     }
 
-    return isRoyalFlush;
+    return royalFlushValue;
   }
 
   hasStraightFlush(cards = []) {
@@ -232,24 +259,26 @@ export class Poker {
     //check for straight
     for (let i = 0; i < sortedFlushCardValues.length - 4; i++) {
       let straight = false;
+      let straightValue = 0;
       for (let j = 1; j < 5; j++) {
         straight = sortedFlushCardValues[i] - j == sortedFlushCardValues[i + j];
+        straightValue += sortedFlushCardValues[i + j];
         if (!straight) break;
-        if (straight && j == 4) return true;
+        if (straight && j == 4) return straightValue;
       }
     }
-    return false;
+    return 0;
   }
 
   hasFourOfAKind(cards = []) {
     const mostAbundantValue = this.findMostAbundantValue(cards);
-    if (mostAbundantValue.amount != 4) return false;
-    return true;
+    if (mostAbundantValue.amount != 4) return 0;
+    return this.cardValueToInt(mostAbundantValue.value) * 4;
   }
 
   hasFullHouse(cards = []) {
     const mostAbundantValue = this.findMostAbundantValue(cards);
-    if (mostAbundantValue.amount != 3) return false;
+    if (mostAbundantValue.amount != 3) return [];
 
     //remove three of a kind to check for pair
     const cardsWithoutThreeOfAKind = cards.filter(
@@ -259,21 +288,24 @@ export class Poker {
     const nextMostAbundantValue = this.findMostAbundantValue(
       cardsWithoutThreeOfAKind
     );
-    if (nextMostAbundantValue.amount != 2) return false;
+    if (nextMostAbundantValue.amount != 2) return [];
 
-    return true;
+    return [
+      3 * this.cardValueToInt(mostAbundantValue.value),
+      2 * this.cardValueToInt(nextMostAbundantValue.value),
+    ];
   }
 
   hasThreeOfAKind(cards = []) {
     const mostAbundantValue = this.findMostAbundantValue(cards);
-    if (mostAbundantValue.amount != 3) return false;
-    return true;
+    if (mostAbundantValue.amount != 3) return 0;
+    return this.cardValueToInt(mostAbundantValue.value) * 3;
   }
 
   hasTwoPair(cards = []) {
     //check for first pair
     const mostAbundantValue = this.findMostAbundantValue(cards);
-    if (mostAbundantValue.amount != 2) return false;
+    if (mostAbundantValue.amount != 2) return 0;
 
     //remove first pair to check for second pair
     const cardsWithoutFirstPair = cards.filter(
