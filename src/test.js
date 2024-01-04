@@ -234,7 +234,7 @@ function testHasRoyalFlushTRUE() {
 
   const result = game.hasRoyalFlush(totalCards);
 
-  if (result == 0) {
+  if (result != 1) {
     console.log(`testHasRoyalFlushTRUE: Error: The result was ${result}`);
     pass = false;
   }
@@ -261,7 +261,7 @@ function testHasRoyalFlushFALSE() {
 
   const result = game.hasRoyalFlush(totalCards);
 
-  if (result > 0) {
+  if (result != 0) {
     console.log(`testHasRoyalFlushFALSE: Error: The result was ${result}`);
     pass = false;
   }
@@ -288,7 +288,7 @@ function testHasStraightFlushTRUE() {
 
   const result = game.hasStraightFlush(totalCards);
 
-  if (result == false) {
+  if (result != 5) {
     console.log(`testHasStraightFlushTRUE: Error: The result was ${result}`);
     pass = false;
   }
@@ -315,7 +315,7 @@ function testHasStraightFlushFALSE() {
 
   const result = game.hasStraightFlush(totalCards);
 
-  if (result == true) {
+  if (result != 0) {
     console.log(`testHasStraightFlushFALSE: Error: The result was ${result}`);
     pass = false;
   }
@@ -342,7 +342,7 @@ function testHasFlushTRUE() {
 
   const result = game.hasFlush(totalCards);
 
-  if (result == false) {
+  if (result != 14) {
     console.log(`testHasFlushTRUE: Error: The result was ${result}`);
     pass = false;
   }
@@ -369,7 +369,7 @@ function testHasFlushFALSE() {
 
   const result = game.hasFlush(totalCards);
 
-  if (result == true) {
+  if (result != 0) {
     console.log(`testHasFlushFALSE: Error: The result was ${result}`);
     pass = false;
   }
@@ -396,7 +396,7 @@ function testHasStraightTRUE() {
 
   const result = game.hasStraight(totalCards);
 
-  if (result == 0) {
+  if (result != 5) {
     console.log(`testHasStraightTRUE: Error: The result was ${result}`);
     pass = false;
   }
@@ -423,7 +423,7 @@ function testHasStraightFALSE() {
 
   const result = game.hasStraight(totalCards);
 
-  if (result > 0) {
+  if (result != 0) {
     console.log(`testHasStraightFALSE: Error: The result was ${result}`);
     pass = false;
   }
@@ -450,7 +450,7 @@ function testHasFourOfAKindTRUE() {
 
   const result = game.hasFourOfAKind(totalCards);
 
-  if (result == false) {
+  if (result != 2) {
     console.log(`testHasFourOfAKindTRUE: Error: The result was ${result}`);
     pass = false;
   }
@@ -477,7 +477,7 @@ function testHasFourOfAKindFALSE() {
 
   const result = game.hasFourOfAKind(totalCards);
 
-  if (result == true) {
+  if (result != 0) {
     console.log(`testHasFourOfAKindFALSE: Error: The result was ${result}`);
     pass = false;
   }
@@ -504,7 +504,7 @@ function testHasFullHouseTRUE() {
 
   const result = game.hasFullHouse(totalCards);
 
-  if (result == false) {
+  if (result[0] != 2 || result[1] != 3) {
     console.log(`testHasFullHouseTRUE: Error: The result was ${result}`);
     pass = false;
   }
@@ -521,7 +521,7 @@ function testHasFullHouseFALSE() {
     { value: "2", suit: "CLUBS" },
     { value: "3", suit: "HEARTS" },
     { value: "2", suit: "DIAMONDS" },
-    { value: "3", suit: "SPADES" },
+    { value: "4", suit: "SPADES" },
   ];
   game.players[0].cards = [
     { value: "2", suit: "SPADES" },
@@ -531,12 +531,12 @@ function testHasFullHouseFALSE() {
 
   const result = game.hasFullHouse(totalCards);
 
-  if (result.length == 2) {
-    console.log(`testHasFullHouseTRUE: Error: The result was ${result}`);
+  if (result.length != 0) {
+    console.log(`testHasFullHouseFALSE: Error: The result was ${result}`);
     pass = false;
   }
 
-  console.log(`testHasFullHouseTRUE: ${pass ? "Success" : "Failed"}`);
+  console.log(`testHasFullHouseFALSE: ${pass ? "Success" : "Failed"}`);
   return;
 }
 
@@ -558,7 +558,7 @@ function testHasThreeOfAKindTRUE() {
 
   const result = game.hasThreeOfAKind(totalCards);
 
-  if (result == false) {
+  if (result != 2) {
     console.log(`testHasThreeOfAKindTRUE: Error: The result was ${result}`);
     pass = false;
   }
@@ -585,7 +585,7 @@ function testHasThreeOfAKindFALSE() {
 
   const result = game.hasThreeOfAKind(totalCards);
 
-  if (result == true) {
+  if (result != 0) {
     console.log(`testHasThreeOfAKindFALSE: Error: The result was ${result}`);
     pass = false;
   }
@@ -612,7 +612,7 @@ function testHasTwoPairTRUE() {
 
   const result = game.hasTwoPair(totalCards);
 
-  if (result == false) {
+  if (result[0] != 1 || result[1] != 3) {
     console.log(`testHasTwoPairTRUE: Error: The result was ${result}`);
     pass = false;
   }
@@ -639,7 +639,7 @@ function testHasTwoPairFALSE() {
 
   const result = game.hasTwoPair(totalCards);
 
-  if (result == true) {
+  if (result.length != 0) {
     console.log(`testHasTwoPairFALSE: Error: The result was ${result}`);
     pass = false;
   }
@@ -666,7 +666,7 @@ function testHasPairTRUE() {
 
   const result = game.hasPair(totalCards);
 
-  if (result == false) {
+  if (result != 3) {
     console.log(`testHasPairTRUE: Error: The result was ${result}`);
     pass = false;
   }
@@ -693,7 +693,7 @@ function testHasPairFALSE() {
 
   const result = game.hasPair(totalCards);
 
-  if (result == true) {
+  if (result != 0) {
     console.log(`testHasPairFALSE: Error: The result was ${result}`);
     pass = false;
   }
