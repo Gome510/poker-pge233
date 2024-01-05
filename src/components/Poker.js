@@ -133,6 +133,14 @@ export class Poker {
     return winners;
   }
 
+  awardWinners(winners = []) {
+    const pot = this.getPot();
+    const splitPot = Math.floor(pot / winners.length);
+    if (pot % winners.length != 0) {
+      winners[0].balance++;
+    }
+  }
+
   findBestHand(hands = {}) {
     const handKeys = Object.keys(hands);
     for (let i = 0; i < handKeys.length; i++) {

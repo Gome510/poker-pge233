@@ -103,6 +103,72 @@ function testDealCommunityCards() {
   return;
 }
 
+function testAwardWinners() {
+  const game = new Poker();
+  let pass = true;
+
+  game.commmunityCards = [
+    {
+      value: "9",
+      suit: "CLUBS",
+    },
+    {
+      value: "6",
+      suit: "DIAMONDS",
+    },
+    {
+      value: "9",
+      suit: "SPADES",
+    },
+    {
+      value: "KING",
+      suit: "CLUBS",
+    },
+    {
+      value: "2",
+      suit: "HEARTS",
+    },
+  ];
+
+  game.players[0].cards = [
+    {
+      value: "9",
+      suit: "HEARTS",
+    },
+    {
+      value: "9",
+      suit: "DIAMONDS",
+    },
+  ];
+
+  for (let i = 1; i < game.playerCount; i++) {
+    game.players[i].cards = [
+      {
+        value: `${i + 1}`,
+        suit: "SPADES",
+      },
+      {
+        value: `${i + 1}`,
+        suit: "CLUBS",
+      },
+    ];
+  }
+
+  const winners = game.findWinners();
+  game.setPot(500);
+  game.awardWinners(winners);
+
+  if (winners[0].balance != 10500) {
+    console.log(
+      `testAwardWinners(): Error: Player balance is ${winner[0].balance}`
+    );
+    pass = false;
+  }
+
+  console.log(`testAwardWinners: ${pass ? "Success" : "Failed"}`);
+  return;
+}
+
 function testFindWinner() {
   const game = new Poker();
   let pass = true;
