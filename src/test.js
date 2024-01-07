@@ -24,6 +24,7 @@ testHasTwoPairFALSE();
 testHasPairTRUE();
 testHasPairFALSE();
 testFindWinner();
+testAwardWinners();
 
 function testAnteInAllPlayers() {
   let pass = true;

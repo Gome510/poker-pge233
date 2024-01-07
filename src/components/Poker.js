@@ -136,9 +136,17 @@ export class Poker {
   awardWinners(winners = []) {
     const pot = this.getPot();
     const splitPot = Math.floor(pot / winners.length);
+
+    //Give extra dollar to a player when pot cannot be evenly divided
     if (pot % winners.length != 0) {
-      winners[0].balance++;
+      winners[0].balance += 1;
     }
+
+    winners.forEach((player) => {
+      player.balance += splitPot;
+    });
+
+    return;
   }
 
   findBestHand(hands = {}) {
@@ -501,13 +509,16 @@ export class Poker {
         this.dealPlayerCards();
         break;
       case "flop":
-        //deal first 3 community cards
+        //deal 5th community card
+        this.dealCommunityCards();
         break;
       case "turn":
         //deal 4th community card
+        this.dealCommunityCards();
         break;
       case "river":
         //deal 5th community card
+        this.dealCommunityCards();
         break;
       default:
     }
