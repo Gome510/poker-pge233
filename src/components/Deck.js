@@ -26,7 +26,7 @@ export class Deck {
 
   async shuffle() {
     return await fetch(
-      `https://www.deckofcardsapi.com/api/deck/${this.getId()}/shuffle/?deck_count=1`
+      `https://www.deckofcardsapi.com/api/deck/${this.id}/shuffle/?deck_count=1`
     )
       .then((response) => response.json())
       .then((json) => {
@@ -45,7 +45,7 @@ export class Deck {
   //takes number of cards to draw and returns them in an object with the number of cards remaining
   async draw(amount) {
     return await fetch(
-      `https://www.deckofcardsapi.com/api/deck/${this.getId()}/draw/?count=${amount}`
+      `https://www.deckofcardsapi.com/api/deck/${this.id}/draw/?count=${amount}`
     )
       .then((response) => response.json())
       .then((json) => {
@@ -61,9 +61,7 @@ export class Deck {
 
   //returns a true if deck exists in API database.
   async exists() {
-    return await fetch(
-      `https://www.deckofcardsapi.com/api/deck/${this.getId()}/`
-    )
+    return await fetch(`https://www.deckofcardsapi.com/api/deck/${this.id}/`)
       .then((response) => response.json())
       .then((json) => {
         return json.success;

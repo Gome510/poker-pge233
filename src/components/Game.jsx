@@ -3,6 +3,7 @@ import Players from "./Players/Players";
 import { useState, useEffect } from "react";
 import TestToolbar from "./DevTools/TestToolbar";
 import { Poker } from "./Poker";
+import CardsList from "./CardsList/CardsList";
 //TODO: Make game loop
 function Game({ gameData }) {
   const [game, setGame] = useState(new Poker(gameData));
@@ -13,7 +14,7 @@ function Game({ gameData }) {
 
   useEffect(() => {
     const currentPlayer = game.currentPlayer();
-    console.log(`Player Turn: ${game.playerTurn}`);
+    console.log(game);
 
     if (currentPlayer.isCPU) {
       let gameUpdate = new Poker(game);
@@ -30,8 +31,9 @@ function Game({ gameData }) {
       {game.playerTurn == 2 && (
         <ActionBar game={game} handleGameChange={handleGameChange} />
       )}
-      <Players players={game.getPlayers()} />
+      <Players players={game.players} />
       <TestToolbar game={game} handleGameChange={handleGameChange} />
+      <CardsList cards={game.commmunityCards} />
     </>
   );
 }

@@ -1,4 +1,6 @@
 import "./Players.css";
+import CardsList from "../CardsList/CardsList";
+import { useState } from "react";
 
 export default function Players({ players = [] }) {
   const cardCoords = [
@@ -29,12 +31,15 @@ function PlayerCard({ top, left, player }) {
     left: left || 0,
   };
   return (
-    <div className="player-card" style={playerStyle}>
-      <img src="/assets/default_pfp.png" />
-      <div className="player-nameplate">
-        <h3>{player.name}</h3>
-        <p>{player.balance}</p>
+    <>
+      <div className="player-card" style={playerStyle}>
+        <img src="/assets/default_pfp.png" />
+        <div className="player-nameplate">
+          <h3>{player.name}</h3>
+          <p>{player.balance}</p>
+        </div>
       </div>
-    </div>
+      {player.cards && <CardsList cards={player.cards} />}
+    </>
   );
 }

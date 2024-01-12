@@ -90,6 +90,8 @@ export class Poker {
         currentPlayer.setBet(amount);
         this.addToPot(amount - this.currentBid);
         this.currentBid = amount;
+        const balance = currentPlayer.balance;
+        currentPlayer.balance = balance - amount;
         break;
 
       case "call":
@@ -454,6 +456,10 @@ export class Poker {
   //draw and store 5 community cards and 2 cards per player
   async prepareCards() {
     await this.deck.draw(2 * this.playerCount + 5);
+
+    if (!this.deck.drawn) {
+      console.error("Poker.js: preparecards(): No cards drawn");
+    }
   }
 
   dealPlayerCards() {
@@ -490,7 +496,7 @@ export class Poker {
     this.setPlayerTurn((this.playerTurn + 1) % this.playerCount);
   }
 
-  nextPhase() {
+  async nextPhase() {
     const currentPhaseIndex = phases.findIndex(
       (phase) => phase == this.getPhase()
     );
@@ -501,11 +507,15 @@ export class Poker {
     //perform next phase task
     switch (this.phase) {
       case "ante":
-        //clear all player cards and community cards
         this.deck.shuffle();
+        this.commmunityCards = [];
+        this.players.forEach((player) => {
+          player.cards = [];
+        });
         break;
       case "preflop":
-        this.prepareCards();
+        //clear all player cards and community cards
+        await this.prepareCards();
         this.dealPlayerCards();
         break;
       case "flop":

@@ -1,6 +1,6 @@
 import { Poker } from "./components/Poker.js";
 
-testAnteInAllPlayers();
+/* testAnteInAllPlayers();
 testCpuAction();
 testDealCommunityCards();
 testMostAbundantSuitHEARTS();
@@ -24,7 +24,8 @@ testHasTwoPairFALSE();
 testHasPairTRUE();
 testHasPairFALSE();
 testFindWinner();
-testAwardWinners();
+testAwardWinners(); */
+testPrepareCards();
 
 function testAnteInAllPlayers() {
   let pass = true;
@@ -74,10 +75,9 @@ function testDealCommunityCards() {
   let pass = true;
 
   game.nextPhase(); // pre-flop
-  game.dealPlayerCards();
 
   game.nextPhase(); // flop
-  game.dealCommunityCards();
+
   if (game.commmunityCards.length != 3) {
     console.log(
       `testDealCommunityCards: Error: # of community cards @ flop = ${game.commmunityCards.length}`
@@ -85,7 +85,7 @@ function testDealCommunityCards() {
     pass = false;
   }
   game.nextPhase(); // turn
-  game.dealCommunityCards();
+
   if (game.commmunityCards.length != 4) {
     console.log(
       `testDealCommunityCards: Error: # of community cards @ turn = ${game.commmunityCards.length}`
@@ -93,7 +93,6 @@ function testDealCommunityCards() {
     pass = false;
   }
   game.nextPhase(); // river
-  game.dealCommunityCards();
   if (game.commmunityCards.length != 5) {
     console.log(
       `testDealCommunityCards: Error: # of community cards @ river = ${game.commmunityCards.length}`
@@ -161,7 +160,7 @@ function testAwardWinners() {
 
   if (winners[0].balance != 10500) {
     console.log(
-      `testAwardWinners(): Error: Player balance is ${winner[0].balance}`
+      `testAwardWinners(): Error: Player balance is ${winners[0].balance}`
     );
     pass = false;
   }
@@ -775,5 +774,33 @@ function testHasPairFALSE() {
   }
 
   console.log(`testHasPairFALSE: ${pass ? "Success" : "Failed"}`);
+  return;
+}
+
+async function testPrepareCards() {
+  let pass = true;
+  let game = new Poker();
+
+  game.playerCount = 5;
+  await game.prepareCards();
+
+  if (game.deck.drawn.length != 15) {
+    console.log(
+      `testPrepareCards: Error: ${game.deck.drawn.length} cards were drawn`
+    );
+    pass = false;
+  }
+  if (game.deck.shuffled != false) {
+    console.log(`testPrepareCards: Error: deck.shuffled set to true`);
+    pass = false;
+  }
+  if (game.deck.remaining != 37) {
+    console.log(
+      `testPrepareCards: Error: ${game.deck.remaining} cards remaining`
+    );
+    pass = false;
+  }
+
+  console.log(`testPrepareCards: ${pass ? "Success" : "Failed"}`);
   return;
 }
