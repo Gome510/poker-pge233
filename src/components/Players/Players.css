@@ -10,8 +10,7 @@
   padding-right: 10px;
 
   position: absolute;
-  top: 0;
-  left: 0;
+  transform: translate(-50%, -50%);
 
   display: flex;
   align-items: center;
@@ -25,11 +24,10 @@
   border: 2px black solid;
   margin-right: 5px;
 }
-.player-card h3{
+.player-card h3 {
   margin-bottom: 0px;
-  border-bottom:2px solid black;
+  border-bottom: 2px solid black;
 }
-.player-card p{
+.player-card p {
   margin-top: 0;
-  
 }

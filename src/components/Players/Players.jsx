@@ -1,14 +1,13 @@
 import "./Players.css";
 import CardsList from "../CardsList/CardsList";
-import { useState } from "react";
 
 export default function Players({ players = [] }) {
-  const cardCoords = [
-    { top: "200px", left: "200px" },
-    { top: "400px", left: "200px" },
-    { top: "500px", left: "600px" },
-    { top: "400px", left: "900px" },
-    { top: "200px", left: "900px" },
+  const positions = [
+    { top: 30, left: 23 }, //Player 5
+    { top: 70, left: 23 }, //Player 4
+    { top: 80, left: 50 }, //Player 3
+    { top: 70, left: 77 }, //Player 2
+    { top: 30, left: 77 }, //Player 1
   ].reverse();
 
   return (
@@ -16,8 +15,8 @@ export default function Players({ players = [] }) {
       {players.map((player, index) => (
         <PlayerCard
           key={index}
-          top={cardCoords[index].top}
-          left={cardCoords[index].left}
+          top={positions[index].top}
+          left={positions[index].left}
           player={player}
         />
       ))}
@@ -26,20 +25,26 @@ export default function Players({ players = [] }) {
 }
 
 function PlayerCard({ top, left, player }) {
-  const playerStyle = {
-    top: top || 0,
-    left: left || 0,
+  const playerPosition = {
+    top: `${top}%` || 0,
+    left: `${left}%` || 0,
+  };
+  const cardPosition = {
+    top: `${top - 5}%` || 0,
+    left: `${left}%` || 0,
   };
   return (
     <>
-      <div className="player-card" style={playerStyle}>
+      {player.cards && (
+        <CardsList position={cardPosition} cards={player.cards} />
+      )}
+      <div className="player-card" style={playerPosition}>
         <img src="/assets/default_pfp.png" />
         <div className="player-nameplate">
           <h3>{player.name}</h3>
           <p>{player.balance}</p>
         </div>
       </div>
-      {player.cards && <CardsList cards={player.cards} />}
     </>
   );
 }

@@ -1,16 +1,21 @@
 import React from "react";
+import "./CardsList.css";
 
-function CardsList({ cards = [] }) {
+function CardsList({ position = { top: 0, left: 0 }, cards = [] }) {
   const cardComponents = cards.map((card) => (
     <Card key={card.code} card={card} />
   ));
-  return <div className="community-cards">{cardComponents}</div>;
+  return (
+    <div className="community-cards" style={position}>
+      {cardComponents}
+    </div>
+  );
 }
 
 export default CardsList;
 
 function Card({ card = {} }) {
   return (
-    <img width={100} src={card.image} alt={`${card.value} of ${card.suit}`} />
+    <img width={65} src={card.image} alt={`${card.value} of ${card.suit}`} />
   );
 }

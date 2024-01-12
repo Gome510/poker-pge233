@@ -33,7 +33,10 @@ function Game({ gameData }) {
       )}
       <Players players={game.players} />
       <TestToolbar game={game} handleGameChange={handleGameChange} />
-      <CardsList cards={game.commmunityCards} />
+      <CardsList
+        position={{ top: "50%", left: "50%" }}
+        cards={game.commmunityCards}
+      />
     </>
   );
 }
