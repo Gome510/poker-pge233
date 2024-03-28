@@ -38,7 +38,7 @@ function Game({ gameData }) {
       {game.playerTurn == 2 && (
         <ActionBar game={game} handleGameChange={handleGameChange} />
       )}
-      <Players players={game.players} />
+      <Players players={game.players} playerTurn={game.playerTurn} />
       <TestToolbar game={game} handleGameChange={handleGameChange} />
       <CardsList
         position={{ top: "50%", left: "50%" }}

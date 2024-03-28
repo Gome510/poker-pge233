@@ -1,7 +1,7 @@
 import "./Players.css";
 import CardsList from "../CardsList/CardsList";
 
-export default function Players({ players = [] }) {
+export default function Players({ players = [], playerTurn = 0 }) {
   const positions = [
     { top: 30, left: 23 }, //Player 5
     { top: 70, left: 23 }, //Player 4
@@ -18,13 +18,14 @@ export default function Players({ players = [] }) {
           top={positions[index].top}
           left={positions[index].left}
           player={player}
+          isPlayersTurn={playerTurn + 1 == player.seat}
         />
       ))}
     </>
   );
 }
 
-function PlayerCard({ top, left, player }) {
+function PlayerCard({ top, left, player, isPlayersTurn }) {
   const playerPosition = {
     top: `${top}%` || 0,
     left: `${left}%` || 0,
@@ -33,12 +34,15 @@ function PlayerCard({ top, left, player }) {
     top: `${top - 5}%` || 0,
     left: `${left}%` || 0,
   };
+
+  const bgActive = isPlayersTurn ? "bg-active" : "bg-inactive";
+
   return (
     <>
       {player.cards && (
         <CardsList position={cardPosition} cards={player.cards} />
       )}
-      <div className="player-card" style={playerPosition}>
+      <div className={`${bgActive} player-card `} style={playerPosition}>
         <img src="/assets/default_pfp.png" />
         <div className="player-nameplate">
           <h3>{player.name}</h3>

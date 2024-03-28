@@ -3,7 +3,6 @@
 } */
 
 .player-card {
-  background-color: grey;
   border-radius: 2px;
   color: white;
   height: 60px;
@@ -14,6 +13,14 @@
 
   display: flex;
   align-items: center;
+}
+
+.bg-active {
+  background-color: royalblue;
+}
+
+.bg-inactive {
+  background-color: grey;
 }
 
 .player-card > img {
