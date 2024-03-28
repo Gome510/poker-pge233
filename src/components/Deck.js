@@ -1,7 +1,7 @@
 //TODO: newDeck, exists
 export class Deck {
   constructor(initialState = {}) {
-    this.id = initialState.id || "8qrpkf08dqfq";
+    this.id = initialState.id || "8e7a59784v5t";
     this.remaining = initialState.remaining || 52;
     this.shuffled = initialState.shuffled || true;
     this.drawn = initialState.drawn || [];
