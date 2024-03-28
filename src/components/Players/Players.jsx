@@ -36,6 +36,7 @@ function PlayerCard({ top, left, player, isPlayersTurn }) {
   };
 
   const bgActive = isPlayersTurn ? "bg-active" : "bg-inactive";
+  const cardText = player.lastAction ? player.lastAction : player.name;
 
   return (
     <>
@@ -45,7 +46,7 @@ function PlayerCard({ top, left, player, isPlayersTurn }) {
       <div className={`${bgActive} player-card `} style={playerPosition}>
         <img src="/assets/default_pfp.png" />
         <div className="player-nameplate">
-          <h3>{player.name}</h3>
+          <h3>{cardText}</h3>
           <p>{player.balance}</p>
         </div>
       </div>

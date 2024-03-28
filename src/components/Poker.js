@@ -73,6 +73,7 @@ export class Poker {
       case "ante-in":
         currentPlayer.subtractBalance(this.ante);
         this.addToPot(this.ante);
+        currentPlayer.lastAction = actionType;
       case "check":
         currentPlayer.lastAction = actionType;
         break;
@@ -515,9 +516,15 @@ export class Poker {
       default:
     }
 
+    //Reset Phase
     const nextPhaseIndex = (currentPhaseIndex + 1) % phases.length;
     this.setPhase(phases[nextPhaseIndex]);
     this.clearBid();
+
+    this.players.forEach((player) => {
+      player.lastAction = "";
+      player.bet = 0;
+    });
 
     //perform next phase task
     switch (this.phase) {
