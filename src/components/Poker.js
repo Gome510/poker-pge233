@@ -113,8 +113,13 @@ export class Poker {
     this.nextPlayer();
   }
 
+  //at least 2 players must be playing
   findWinners() {
-    let sortedPlayers = [...this.players];
+    const playingPlayers = this.players.filter(
+      (player) => player.isPlaying == true
+    );
+    console.log(playingPlayers);
+    let sortedPlayers = [...playingPlayers];
     sortedPlayers.sort((A, B) =>
       this.compareHands(this.findHands(B.cards), this.findHands(A.cards))
     );
@@ -125,17 +130,19 @@ export class Poker {
         this.compareHands(
           this.findHands(sortedPlayers[0].cards),
           this.findHands(sortedPlayers[i].cards)
-        ) > 0
+        ) > 0 ||
+        i == sortedPlayers.length - 1
       ) {
         winners = sortedPlayers.slice(0, i);
         break;
       }
     }
-
+    console.log(winners);
     return winners;
   }
 
   awardWinners(winners = []) {
+    console.log(winners);
     const pot = this.getPot();
     const splitPot = Math.floor(pot / winners.length);
 
@@ -497,9 +504,17 @@ export class Poker {
   }
 
   async nextPhase() {
-    const currentPhaseIndex = phases.findIndex(
-      (phase) => phase == this.getPhase()
-    );
+    const currentPhaseIndex = phases.findIndex((phase) => phase == this.phase);
+
+    //perform end of phase task
+    switch (this.phase) {
+      case "river":
+        const winners = this.findWinners();
+        this.awardWinners(winners);
+        break;
+      default:
+    }
+
     const nextPhaseIndex = (currentPhaseIndex + 1) % phases.length;
     this.setPhase(phases[nextPhaseIndex]);
     this.clearBid();

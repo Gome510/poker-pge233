@@ -1,6 +1,6 @@
 import { Poker } from "./components/Poker.js";
 
-/* testAnteInAllPlayers();
+testAnteInAllPlayers();
 testCpuAction();
 testDealCommunityCards();
 testMostAbundantSuitHEARTS();
@@ -24,7 +24,7 @@ testHasTwoPairFALSE();
 testHasPairTRUE();
 testHasPairFALSE();
 testFindWinner();
-testAwardWinners(); */
+testAwardWinners();
 testPrepareCards();
 
 function testAnteInAllPlayers() {
